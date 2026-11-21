@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>A-level Revision</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<style>
+/* Layout: iOS grouped-list app — large-title header, white rounded cards on grey, floating frosted tab bar */
+:root{--bg:#F2F2F7;--card:#FFFFFF;--fg:#000000;--fg2:rgba(60,60,67,.62);--sep:rgba(60,60,67,.16);--fill:rgba(118,118,128,.12);--bar:rgba(250,250,252,.74);--shadow:0 8px 30px rgba(0,0,0,.10);
+--m:#007AFF;--p:#5856D6;--e:#0E9AA7;--t:#FF8A00;--red:#FF3B30;--amber:#FF9F0A;--green:#34C759;--ac:var(--m);--ff:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,system-ui,sans-serif;--fd:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--card:#1C1C1E;--fg:#FFFFFF;--fg2:rgba(235,235,245,.6);--sep:rgba(84,84,88,.55);--fill:rgba(118,118,128,.26);--bar:rgba(28,28,30,.72);--shadow:0 8px 30px rgba(0,0,0,.6);--m:#0A84FF;--p:#7D7AFF;--e:#3CC8D2;--t:#FF9F0A;--red:#FF453A;--amber:#FFB340;--green:#30D158;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000000;--card:#1C1C1E;--fg:#FFFFFF;--fg2:rgba(235,235,245,.6);--sep:rgba(84,84,88,.55);--fill:rgba(118,118,128,.26);--bar:rgba(28,28,30,.72);--shadow:0 8px 30px rgba(0,0,0,.6);--m:#0A84FF;--p:#7D7AFF;--e:#3CC8D2;--t:#FF9F0A;--red:#FF453A;--amber:#FFB340;--green:#30D158;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font:16px/1.38 var(--ff);margin:0;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px calc(120px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.eye{color:var(--ac);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.tb{display:flex;gap:6px}
+.tbtn{min-height:36px;padding:0 14px;border-radius:18px;background:var(--fill);font-size:15px;font-weight:600;color:var(--ac)}
+.tbtn.on{background:var(--ac);color:#fff}
+h1{font:800 34px/1.1 var(--fd);letter-spacing:-.02em;margin:2px 0 14px;text-wrap:balance}
+.card{background:var(--card);border-radius:16px;overflow:hidden}
+.stack{display:grid;gap:12px}
+.rings{display:flex;align-items:center;gap:18px;padding:16px}
+.ring{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.ring svg{flex:none}
+.ring b{display:block;font-size:15px}.ring small{color:var(--fg2);font-size:13px}
+.rtrack{stroke:var(--fill)}.rval{stroke:var(--ac);transition:stroke-dashoffset .5s}
+.rpct{fill:var(--fg);font:700 15px var(--ff)}
+.rnote .rval{stroke:var(--green)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 16px;min-height:52px;border-top:.5px solid var(--sep)}
+.row label{flex:1 0 auto;font-weight:600;white-space:nowrap}
+.row input[type=date]{background:var(--fill);border:0;border-radius:9px;padding:7px 10px;min-height:36px}
+.days{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--fg2);font-size:14px;white-space:nowrap}
+.days b{color:var(--ac);font-size:20px}
+.search{display:flex;align-items:center;gap:8px;background:var(--fill);border-radius:12px;padding:0 12px;min-height:44px}
+.search input{flex:1;border:0;background:none;min-width:0;outline:0;min-height:44px}
+.seg{display:flex;background:var(--fill);border-radius:10px;padding:2px}
+.seg button{flex:1;min-height:36px;border-radius:8px;font-size:14px;font-weight:600;color:var(--fg2)}
+.seg button.on{background:var(--card);color:var(--fg);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.grp{font:700 20px var(--fd);margin:14px 4px 2px;letter-spacing:-.01em}
+.grp small{display:block;color:var(--ac);font:700 12px var(--ff);letter-spacing:.06em;text-transform:uppercase}
+.sh{display:flex;align-items:center;gap:10px;padding:0 6px 0 14px;min-height:58px}
+.sh.sub{min-height:50px;border-top:.5px solid var(--sep);padding-left:22px}
+.sh .tt{flex:1;min-width:0;text-align:left;display:flex;align-items:center;gap:8px;min-height:inherit;font-weight:650}
+.sh.sub .tt{font-weight:550;font-size:15px}
+.chev{flex:none;width:9px;height:9px;border-right:2.4px solid var(--fg2);border-bottom:2.4px solid var(--fg2);transform:rotate(-45deg);transition:transform .2s;margin-right:4px}
+.open>.sh .chev,.sh.open .chev{transform:rotate(45deg)}
+.cnt{font-size:13px;color:var(--fg2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.cnt.full{color:var(--green);font-weight:700}
+.ib{flex:none;width:44px;height:44px;border-radius:22px;display:grid;place-items:center;color:var(--ac);font-size:24px;font-weight:400;line-height:1}
+.ib:active{background:var(--fill)}
+.ib.del{color:var(--red);font-size:15px;font-weight:600;width:auto;padding:0 8px}
+.ib.arm{background:var(--red);color:#fff}
+.pts{border-top:.5px solid var(--sep)}
+.pt{padding:10px 8px 12px 22px;border-top:.5px solid var(--sep)}
+.pt:first-child{border-top:0}
+.pr{display:flex;align-items:flex-start;gap:10px}
+.ptx{flex:1;min-width:0;padding-top:10px;font-size:15px}
+.ref{font-weight:700;color:var(--ac);margin-right:5px;font-variant-numeric:tabular-nums}
+.done .ptx{text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--fg2)}
+.done .tt>span:first-of-type{text-decoration:line-through;color:var(--fg2)}
+.dot{flex:none;width:44px;height:44px;display:grid;place-items:center}
+.dot i{width:20px;height:20px;border-radius:10px;border:2px solid var(--fg2);display:block}
+.dot.c1 i{background:var(--red);border-color:var(--red)}.dot.c2 i{background:var(--amber);border-color:var(--amber)}.dot.c3 i{background:var(--green);border-color:var(--green)}
+.ib.added{color:#fff;background:var(--ac);font-size:18px}
+.pb{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 0 54px}
+.pill{min-height:36px;padding:0 13px;border-radius:18px;background:var(--fill);font-size:14px;font-weight:600;color:var(--fg2)}
+.pill.on{background:var(--ac);color:#fff}
+.pill.on.rd{background:var(--green)}
+.ed{flex:1;min-width:0;border:0;border-radius:9px;background:var(--fill);padding:8px 10px;min-height:40px}
+.add{display:flex;gap:8px;padding:10px 12px 10px 22px;border-top:.5px solid var(--sep)}
+.add input{flex:1}
+.abtn{min-height:40px;padding:0 14px;border-radius:10px;background:var(--ac);color:#fff;font-weight:600;font-size:15px}
+.abtn.g{background:var(--fill);color:var(--ac)}
+.abtn.r{background:var(--fill);color:var(--red)}
+.abtn.r.arm{background:var(--red);color:#fff}
+.empty{padding:28px 18px;text-align:center;color:var(--fg2)}
+.tk{display:flex;align-items:center;gap:6px;padding:0 6px 0 8px;min-height:52px;border-top:.5px solid var(--sep)}
+.tk:first-child{border-top:0}
+.ck{flex:none;width:44px;height:44px;display:grid;place-items:center}
+.ck i{width:24px;height:24px;border-radius:12px;border:2px solid var(--fg2);display:grid;place-items:center;color:#fff;font-size:14px;font-style:normal;font-weight:800}
+.tk.d .ck i{background:var(--ac);border-color:var(--ac)}
+.tk span{flex:1;min-width:0;font-size:15px;padding:8px 0}
+.tk.d span{text-decoration:line-through;color:var(--fg2)}
+.tk .x{width:40px;height:40px;color:var(--fg2);font-size:20px}
+.lbl{font-size:13px;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin:8px 16px 0}
+.foot{display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px}
+.sync{font-size:13px;color:var(--fg2);padding:0 16px 14px}
+.sync i{display:inline-block;width:8px;height:8px;border-radius:4px;background:var(--fg2);margin-right:6px}
+.sync.ok i{background:var(--green)}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:2px;padding:6px;border-radius:30px;background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);box-shadow:var(--shadow);border:.5px solid var(--sep);z-index:20;width:min(420px,calc(100% - 24px))}
+nav button{flex:1;display:grid;justify-items:center;gap:1px;min-height:54px;padding:6px 0 4px;border-radius:24px;color:var(--fg2);font-size:11px;font-weight:600}
+nav button svg{width:24px;height:24px}
+nav button.on{color:var(--c);background:var(--fill)}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:14px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:30;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.4);display:grid;align-items:end;z-index:40;padding:12px max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.sheet .card{max-width:600px;width:100%;margin:0 auto;padding:16px;display:grid;gap:12px}
+.sheet h2{margin:0;font:700 20px var(--fd)}
+.sheet p{margin:0;color:var(--fg2);font-size:14px}
+.sheet textarea{width:100%;min-height:160px;border:0;border-radius:12px;background:var(--fill);padding:12px;font:13px/1.4 ui-monospace,Menlo,monospace;resize:vertical}
+.sheet .foot{padding:0;justify-content:flex-end}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app">
+  <div class="top"><span class="eye" id="eye"></span><div class="tb"><button class="tbtn" id="theme" data-a="theme"></button><button class="tbtn" id="edit" data-a="edit">Edit</button></div></div>
+  <h1 id="ttl"></h1>
+  <div class="stack" id="subj">
+    <div class="card"><div class="rings" id="rings"></div>
+      <div class="row"><label for="exam">Exam date</label><input type="date" id="exam"><span class="days" id="days"></span></div></div>
+    <div class="search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="color:var(--fg2)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search spec points" autocomplete="off"></div>
+    <div class="seg" id="flt"><button data-a="flt" data-f="all">All</button><button data-a="flt" data-f="nl">Not learnt yet</button><button data-a="flt" data-f="rv">To revise</button></div>
+    <div id="list" class="stack"></div>
+  </div>
+  <div class="stack" id="todo" hidden></div>
+  <div class="card" style="margin-top:20px"><div class="foot"><button class="abtn g" data-a="copy">Copy backup</button><button class="abtn g" data-a="restore">Restore backup</button><button class="abtn r" id="untick" data-a="untick" hidden>Untick all</button></div><div class="sync" id="sync"><i></i>Saved on this device</div></div>
+</div>
+<nav id="nav"></nav>
+<div class="toast" id="toast"></div>
+<div class="sheet" id="sheet" hidden><div class="card"><h2 id="shT"></h2><p id="shP"></p><textarea id="shX" spellcheck="false"></textarea><div class="foot"><button class="abtn g" data-a="shClose">Cancel</button><button class="abtn" id="shGo" data-a="shGo"></button></div></div></div>
+
+<script type="text/plain" id="d-m">
+@Year 1|AS content
+#Pure
+##1 Proof
+1.1 Proof by deduction, proof by exhaustion and disproof by counter-example
+##2 Algebra and functions
+2.1 Laws of indices for all rational exponents
+2.2 Surds, including rationalising the denominator
+2.3 Quadratics: graphs, discriminant, completing the square and solving (including in a function of the unknown)
+2.4 Simultaneous equations by elimination and substitution, including one linear and one quadratic
+2.5 Linear and quadratic inequalities, set notation, and representing inequalities graphically
+2.6 Polynomials: expanding, factorising, simple algebraic division and the factor theorem
+2.7 Graphs of functions: polynomials, y = a/x and y = a/x² with asymptotes; solving equations graphically; proportional relationships
+2.9 Transformations y = af(x), y = f(x) + a, y = f(x + a), y = f(ax)
+##3 Coordinate geometry in the (x, y) plane
+3.1 Straight lines: y − y₁ = m(x − x₁) and ax + by + c = 0; parallel and perpendicular gradients; straight-line models
+3.2 Circles: (x − a)² + (y − b)² = r², completing the square for centre and radius; angle in a semicircle, perpendicular to a chord, tangent ⟂ radius
+##4 Sequences and series
+4.1 Binomial expansion of (a + bx)ⁿ for positive integer n; n! and ⁿCᵣ; link to binomial probabilities
+##5 Trigonometry
+5.1 Sine, cosine and tangent for all arguments; sine and cosine rules; area = ½ab sin C
+5.3 Graphs of sin, cos and tan: symmetries and periodicity
+5.5 tan θ = sin θ / cos θ and sin²θ + cos²θ = 1
+5.7 Solve trig equations in a given interval, including quadratics and multiples of the angle
+##6 Exponentials and logarithms
+6.1 The functions aˣ and eˣ and their graphs
+6.2 Gradient of e^kx is ke^kx; why exponential models suit many applications
+6.3 logₐx as the inverse of aˣ; ln x as the inverse of eˣ
+6.4 Laws of logarithms
+6.5 Solve equations of the form aˣ = b
+6.6 Log graphs to estimate parameters in y = axⁿ and y = kbˣ
+6.7 Exponential growth and decay in modelling; limitations and refinements
+##7 Differentiation
+7.1 Derivative as gradient of the tangent and as a limit; rate of change; sketching gradient functions; second derivatives; first principles for small positive integer powers
+7.2 Differentiate xⁿ for rational n, with constant multiples, sums and differences
+7.3 Gradients, tangents, normals, maxima, minima and stationary points; increasing and decreasing functions
+##8 Integration
+8.1 The Fundamental Theorem of Calculus
+8.2 Integrate xⁿ (n ≠ −1) with sums, differences and constant multiples
+8.3 Definite integrals; area under a curve
+##10 Vectors
+10.1 Vectors in two dimensions
+10.2 Magnitude and direction; component and magnitude–direction forms
+10.3 Adding vectors, multiplying by scalars and their geometric meaning
+10.4 Position vectors; distance between two points
+10.5 Vectors in pure maths and in context, including forces
+#Statistics
+##1 Statistical sampling
+1.1 Population and sample; informal inference; simple random and opportunity sampling; select or critique sampling techniques
+##2 Data presentation and interpretation
+2.1 Single-variable diagrams; histogram area represents frequency
+2.2 Scatter diagrams and regression lines; informal correlation; correlation is not causation
+2.3 Measures of central tendency and variation, including standard deviation from summary statistics
+2.4 Outliers; select or critique presentation techniques; cleaning data
+##3 Probability
+3.1 Mutually exclusive and independent events; link to discrete and continuous distributions
+##4 Statistical distributions
+4.1 Simple discrete distributions including the binomial; calculate binomial probabilities
+##5 Statistical hypothesis testing
+5.1 Language of hypothesis testing: H₀, H₁, significance level, test statistic, 1- and 2-tail tests, critical value and region, acceptance region, p-value
+5.2 Binomial hypothesis test for a proportion; interpret in context; significance level as P(wrongly rejecting H₀)
+#Mechanics
+##6 Quantities and units in mechanics
+6.1 S.I. units for length, time and mass; derived quantities: velocity, acceleration, force, weight
+##7 Kinematics
+7.1 Language of kinematics: position, displacement, distance, velocity, speed, acceleration
+7.2 Displacement–time and velocity–time graphs: gradients and area under the graph
+7.3 Derive and use the constant acceleration (suvat) formulae in a straight line
+7.4 Calculus in kinematics for motion in a straight line
+##8 Forces and Newton’s laws
+8.1 The concept of force; Newton’s first law
+8.2 Newton’s second law in a straight line (perpendicular forces or simple 2-D vectors)
+8.3 Weight and motion under gravity; g and its value in S.I. units
+8.4 Newton’s third law; equilibrium of forces on a particle; smooth pulleys and connected particles
+@Year 2|A-level only
+#Pure
+##1 Proof
+1.1 Proof by contradiction, including irrationality of √2 and infinity of primes
+##2 Algebra and functions
+2.6 Simplify rational expressions; algebraic division by linear expressions
+2.7 The modulus of a linear function
+2.8 Composite functions; inverse functions and their graphs
+2.9 Combinations of transformations
+2.10 Partial fractions (up to squared linear denominators, three terms)
+2.11 Functions in modelling; limitations and refinements
+##3 Coordinate geometry in the (x, y) plane
+3.3 Parametric equations; converting between Cartesian and parametric forms
+3.4 Parametric equations in modelling
+##4 Sequences and series
+4.1 Binomial expansion for any rational n; approximations; valid for |bx/a| < 1
+4.2 Sequences from an nth-term formula or xₙ₊₁ = f(xₙ); increasing, decreasing and periodic sequences
+4.3 Sigma notation
+4.4 Arithmetic sequences and series: nth term and sum to n terms
+4.5 Geometric sequences and series; sum to infinity when |r| < 1
+4.6 Sequences and series in modelling
+##5 Trigonometry
+5.1 Radian measure; arc length and sector area
+5.2 Small angle approximations for sin, cos and tan
+5.3 Exact values of sin, cos and tan for 0, π/6, π/4, π/3, π/2, π and multiples
+5.4 sec, cosec, cot and arcsin, arccos, arctan: graphs, domains and ranges
+5.5 sec²θ = 1 + tan²θ and cosec²θ = 1 + cot²θ
+5.6 Double angle and compound angle formulae; a cos θ + b sin θ as R cos(θ ± α) or R sin(θ ± α)
+5.8 Proofs involving trig functions and identities
+5.9 Trig in context: vectors, kinematics and forces
+##7 Differentiation
+7.1 Derivatives of sin x and cos x from first principles; second derivative, convex and concave curves, points of inflection
+7.2 Differentiate e^kx, a^kx, sin kx, cos kx, tan kx and ln x
+7.3 Points of inflection
+7.4 Product, quotient and chain rules; connected rates of change; inverse functions
+7.5 Implicit and parametric differentiation (first derivative)
+7.6 Construct simple differential equations, in pure maths and in context
+##8 Integration
+8.2 Integrate e^kx, 1/x, sin kx and cos kx
+8.3 Area between two curves
+8.4 Integration as the limit of a sum
+8.5 Integration by substitution and by parts
+8.6 Integration using partial fractions
+8.7 First-order separable differential equations; particular solutions
+8.8 Interpret differential equation solutions in context; limitations
+##9 Numerical methods
+9.1 Locate roots by change of sign; how sign-change methods fail
+9.2 Iteration; cobweb and staircase diagrams
+9.3 Newton–Raphson and xₙ₊₁ = g(xₙ); how these methods fail
+9.4 Trapezium rule; bounds on the area
+9.5 Numerical methods in context
+##10 Vectors
+10.1 Vectors in three dimensions
+#Statistics
+##3 Probability
+3.2 Conditional probability: tree and Venn diagrams, two-way tables, P(A|B) = P(A∩B)/P(B)
+3.3 Modelling with probability; critique assumptions
+##4 Statistical distributions
+4.2 The Normal distribution as a model; links to histograms, mean, s.d., points of inflection and the binomial
+4.3 Select an appropriate distribution; when binomial or Normal may not fit
+##5 Statistical hypothesis testing
+5.1 Correlation coefficients; test using a given p-value or critical value
+5.3 Hypothesis test for the mean of a Normal distribution with known variance
+#Mechanics
+##6 Quantities and units in mechanics
+6.1 Moments as a derived quantity
+##7 Kinematics
+7.3 Constant acceleration in 2 dimensions using vectors
+7.4 Calculus in kinematics in 2 dimensions using vectors
+7.5 Motion under gravity in a vertical plane; projectiles
+##8 Forces and Newton’s laws
+8.2 Newton’s second law where forces need resolving (2-D)
+8.4 Resolving forces in 2-D; equilibrium of a particle under coplanar forces
+8.5 Addition of forces; resultants; dynamics in a plane
+8.6 Friction: F ≤ μR, coefficient of friction, rough surfaces, limiting friction and statics
+##9 Moments
+9.1 Moments in simple static contexts
+</script>
+
+<script type="text/plain" id="d-p">
+#Module 1|Development of practical skills
+##1.1.1 Planning
+(a) Experimental design, including solving problems in a practical context
+(b) Identifying variables that must be controlled
+(c) Evaluating whether a method meets the expected outcomes
+##1.1.2 Implementing
+(a) Using a wide range of practical apparatus and techniques correctly
+(b) Appropriate units for measurements
+(c) Presenting observations and data in an appropriate format
+##1.1.3 Analysis
+(a) Processing, analysing and interpreting qualitative and quantitative results
+(b) Mathematical skills for analysing quantitative data
+(c) Appropriate use of significant figures
+(d) Plotting and interpreting graphs: scales, quantities, units, gradients and intercepts
+##1.1.4 Evaluation
+(a) Evaluating results and drawing conclusions
+(b) Identifying anomalies in measurements
+(c) Limitations in experimental procedures
+(d) Precision and accuracy; margins of error, percentage errors and uncertainties
+(e) Refining experimental design by suggesting improvements
+##1.2.1 Practical skills (endorsement)
+(a) Apply investigative approaches and methods to practical work
+(b) Safely and correctly use practical equipment and materials
+(c) Follow written instructions
+(d) Make and record observations and measurements
+(e) Keep appropriate records of experimental activities
+(f) Present information and data in a scientific way
+(g) Use software and tools to process data, research and report findings
+(h) Use online and offline research skills
+(i) Correctly cite sources of information
+(j) Use a wide range of experimental instruments, equipment and techniques
+##1.2.2 Use of apparatus and techniques
+(a) Analogue apparatus for length, temperature, pressure, force, angles and volume; interpolating scales
+(b) Digital instruments including multimeters for time, current, voltage, resistance and mass
+(c) Increasing accuracy: timing many oscillations, fiducial marker, set square, plumb line
+(d) Stopwatch or light gates for timing
+(e) Calipers and micrometers (digital or vernier)
+(f) Building circuits from diagrams, including polarity-sensitive components
+(g) Designing, constructing and checking circuits
+(h) Signal generator and oscilloscope: volts/division and time-base
+(i) Generating and measuring waves: microphone and loudspeaker, ripple tank, vibration transducer or microwaves
+(j) Laser or light source to investigate interference and diffraction
+(k) ICT: modelling, data-loggers with sensors, data-processing software
+(l) Ionising radiation, including detectors
+#Module 2|Foundations of physics
+##2.1.1 Physical quantities
+(a) Physical quantities have a numerical value and a unit
+(b) Making estimates of physical quantities
+##2.1.2 S.I. units
+(a) S.I. base quantities and units: kg, m, s, A, K, mol
+(b) Derived units of S.I. base units
+(c) Units listed in the specification
+(d) Checking homogeneity of equations using S.I. base units
+(e) Prefixes from pico (p) to tera (T)
+(f) Conventions for labelling graph axes and table columns
+##2.2.1 Measurements and uncertainties
+(a) Systematic errors (including zero errors) and random errors
+(b) Precision and accuracy
+(c) Absolute and percentage uncertainties when combining data
+(d) Error bars, line of best fit, worst line, percentage difference
+##2.3.1 Scalars and vectors
+(a) Scalar and vector quantities
+(b) Vector addition and subtraction
+(c) Vector triangle for the resultant of two coplanar vectors
+(d) Resolving vectors: Fx = F cos θ, Fy = F sin θ
+#Module 3|Forces and motion
+##3.1.1 Kinematics
+(a) Displacement, instantaneous speed, average speed, velocity and acceleration
+(b) Graphical representations of displacement, speed, velocity and acceleration
+(c) Displacement–time graphs: velocity is the gradient
+(d) Velocity–time graphs: acceleration is the gradient, displacement is the area
+##3.1.2 Linear motion
+(a) Equations of motion for constant acceleration (suvat); PAG1 motion and collisions
+(b) Acceleration of free fall g; determining g (trapdoor, electromagnet, light gates)
+(c) Reaction time, thinking distance, braking distance and stopping distance
+##3.1.3 Projectile motion
+(a) Independence of vertical and horizontal motion
+(b) Two-dimensional projectile motion
+##3.2.1 Dynamics
+(a) Net force = mass × acceleration; F = ma
+(b) The newton as the unit of force
+(c) Weight; W = mg
+(d) Tension, normal contact force, upthrust and friction
+(e) Free-body diagrams
+(f) One- and two-dimensional motion under constant force
+##3.2.2 Motion with non-uniform acceleration
+(a) Drag as friction in a fluid
+(b) Factors affecting drag in air
+(c) Falling in a uniform field with drag
+(d) Terminal velocity; determining it in fluids
+##3.2.3 Equilibrium
+(a) Moment of a force; moment = Fx
+(b) Couple; torque of a couple = Fd
+(c) The principle of moments
+(d) Centre of mass and centre of gravity; finding centre of gravity experimentally
+(e) Equilibrium under forces and torques
+(f) Three coplanar forces in equilibrium; triangle of forces
+##3.2.4 Density and pressure
+(a) Density ρ = m/V
+(b) Pressure p = F/A; p = hρg for fluids
+(c) Upthrust; Archimedes’ principle
+##3.3.1 Work and conservation of energy
+(a) Work done by a force; the joule
+(b) W = Fx cos θ
+(c) Principle of conservation of energy
+(d) Energy in different forms; transfer and conservation
+(e) Energy transferred equals work done
+##3.3.2 Kinetic and potential energies
+(a) Kinetic energy Ek = ½mv²
+(b) Gravitational potential energy Ep = mgh
+(c) Exchange between Ep and Ek
+##3.3.3 Power
+(a) Power; the watt; P = W/t
+(b) P = Fv
+(c) Efficiency of a mechanical system
+##3.4.1 Springs
+(a) Tensile and compressive deformation; extension and compression
+(b) Hooke’s law
+(c) Force constant k; F = kx
+(d) Force–extension graphs for springs and wires; PAG investigation
+##3.4.2 Mechanical properties of matter
+(a) Force–extension graph: work done is the area under it
+(b) Elastic potential energy E = ½Fx = ½kx²
+(c) Stress, strain and ultimate tensile strength
+(d) Young modulus E = stress/strain; determining it for a metal
+(e) Stress–strain graphs for ductile, brittle and polymeric materials
+(f) Elastic and plastic deformation
+##3.5.1 Newton’s laws of motion
+(a) Newton’s three laws of motion
+(b) Linear momentum p = mv; vector nature
+(c) Net force = rate of change of momentum
+(d) Impulse = FΔt
+(e) Impulse is the area under a force–time graph
+##3.5.2 Collisions
+(a) Conservation of momentum
+(b) Collisions and interactions in one and two dimensions
+(c) Perfectly elastic and inelastic collisions
+#Module 4|Electrons, waves and photons
+##4.1.1 Charge
+(a) Current as rate of flow of charge; I = ΔQ/Δt
+(b) The coulomb
+(c) Elementary charge e = 1.6 × 10⁻¹⁹ C
+(d) Charge is quantised in multiples of e
+(e) Electrons in metals and ions in electrolytes
+(f) Conventional current and electron flow
+(g) Kirchhoff’s first law; conservation of charge
+##4.1.2 Mean drift velocity
+(a) Mean drift velocity of charge carriers
+(b) I = Anev
+(c) Conductors, semiconductors and insulators in terms of n
+##4.2.1 Circuit symbols
+(a) Circuit symbols
+(b) Circuit diagrams using these symbols
+##4.2.2 E.m.f. and p.d.
+(a) Potential difference; the volt
+(b) Electromotive force of a cell or power supply
+(c) e.m.f. versus p.d. in terms of energy transfer
+(d) W = VQ; W = εQ
+(e) eV = ½mv² for electrons and other charged particles
+##4.2.3 Resistance
+(a) Resistance R = V/I; the ohm
+(b) Ohm’s law
+(c) I–V characteristics: resistor, filament lamp, thermistor, diode, LED; PAG investigation
+(d) LDR: resistance varies with light intensity
+##4.2.4 Resistivity
+(a) Resistivity R = ρL/A; determining it for a metal
+(b) Resistivity of metals and semiconductors with temperature
+(c) NTC thermistor: resistance with temperature
+##4.2.5 Power
+(a) P = VI, P = I²R, P = V²/R
+(b) W = VIt
+(c) Kilowatt-hour; cost of energy
+##4.3.1 Series and parallel circuits
+(a) Kirchhoff’s second law; conservation of energy
+(b) Kirchhoff’s laws applied to circuits
+(c) Resistors in series
+(d) Resistors in parallel
+(e) Series and parallel circuit analysis
+(f) Circuits with more than one source of e.m.f.
+##4.3.2 Internal resistance
+(a) Source of e.m.f.; internal resistance
+(b) Terminal p.d.; lost volts
+(c) ε = I(R + r) and ε = V + Ir; determining internal resistance
+##4.3.3 Potential dividers
+(a) Potential divider circuits
+(b) Variable components, e.g. LDR and thermistor
+(c) Potential divider equations; PAG investigation with sensors
+##4.4.1 Wave motion
+(a) Progressive waves; longitudinal and transverse
+(b) Displacement, amplitude, wavelength, period, phase difference, frequency, speed; oscilloscope frequency
+(c) f = 1/T
+(d) Wave equation v = fλ
+(e) Graphs of transverse and longitudinal waves
+(f) Reflection, refraction, polarisation and diffraction; ripple tank and polarisation practicals
+(g) Intensity I = P/A; intensity ∝ amplitude²
+##4.4.2 Electromagnetic waves
+(a) EM spectrum and properties of EM waves
+(b) Orders of magnitude of wavelengths, radio to gamma
+(c) Plane polarised waves; polarisation of EM waves
+(d) Refraction; n = c/v; n sin θ = constant; ray box practicals
+(e) Critical angle sin C = 1/n; total internal reflection
+##4.4.3 Superposition
+(a) Principle of superposition; experiments with sound, light and microwaves
+(b) Graphical methods for superposition
+(c) Interference, coherence, path difference and phase difference
+(d) Constructive and destructive interference
+(e) Two-source interference with sound and microwaves
+(f) Young double-slit experiment
+(g) λ = ax/D; finding λ with a double slit and a diffraction grating
+##4.4.4 Stationary waves
+(a) Stationary waves with microwaves, strings and air columns
+(b) Graphs of a stationary wave
+(c) Stationary versus progressive waves
+(d) Nodes and antinodes
+(e) Strings and open/closed tubes; speed of sound with a resonance tube
+(f) Node separation = λ/2
+(g) Fundamental mode and harmonics
+##4.5.1 Photons
+(a) Photon model of EM radiation
+(b) Photon as a quantum of energy
+(c) E = hf and E = hc/λ
+(d) The electronvolt
+(e) Planck constant from LEDs: eV = hc/λ
+##4.5.2 The photoelectric effect
+(a) Photoelectric effect; gold-leaf electroscope and zinc plate
+(b) One-to-one photon–electron interaction
+(c) Einstein’s equation hf = φ + KEmax
+(d) Work function; threshold frequency
+(e) KEmax independent of intensity
+(f) Emission rate ∝ intensity above threshold
+##4.5.3 Wave–particle duality
+(a) Electron diffraction as evidence
+(b) Electron diffraction through graphite
+(c) de Broglie equation λ = h/p
+#Module 5|Newtonian world and astrophysics
+##5.1.1 Temperature
+(a) Thermal equilibrium
+(b) Absolute (thermodynamic) temperature scale
+(c) Temperature in °C and kelvin
+(d) T(K) ≈ θ(°C) + 273
+##5.1.2 Solid, liquid and gas
+(a) Spacing, ordering and motion of particles
+(b) Simple kinetic model
+(c) Brownian motion; smoke cell
+(d) Internal energy as random kinetic plus potential energies
+(e) Absolute zero
+(f) Internal energy rises with temperature
+(g) Internal energy during a change of phase
+##5.1.3 Thermal properties of materials
+(a) Specific heat capacity E = mcΔθ
+(b) Electrical method for specific heat capacity
+(c) Specific latent heat E = mL (fusion and vaporisation)
+(d) Electrical method for specific latent heat
+##5.1.4 Ideal gases
+(a) Moles; Avogadro constant 6.02 × 10²³ mol⁻¹
+(b) Kinetic theory model and its assumptions
+(c) Pressure explained by the model
+(d) pV = nRT; Boyle’s law and pressure practicals; estimating absolute zero
+(e) pV = ⅓Nm c̄²
+(f) Root mean square speed; mean square speed
+(g) Boltzmann constant k = R/Nₐ
+(h) pV = NkT; ½m c̄² = 3/2 kT
+(i) Internal energy of an ideal gas
+##5.2.1 Kinematics of circular motion
+(a) The radian
+(b) Period and frequency in circular motion
+(c) Angular velocity ω = 2π/T = 2πf
+##5.2.2 Centripetal force
+(a) Net force perpendicular to velocity causes circular motion
+(b) v = ωr
+(c) a = v²/r = ω²r
+(d) F = mv²/r = mω²r; whirling bung practical
+##5.3.1 Simple harmonic oscillations
+(a) Displacement, amplitude, period, frequency, angular frequency, phase difference
+(b) ω = 2π/T = 2πf
+(c) SHM: a = −ω²x; measuring period and frequency
+(d) x = A cos ωt or x = A sin ωt
+(e) v = ±ω√(A² − x²); vmax = ωA
+(f) Period independent of amplitude
+(g) Graphs of displacement, velocity and acceleration in SHM
+##5.3.2 Energy of a simple harmonic oscillator
+(a) Kinetic–potential energy interchange in SHM
+(b) Energy–displacement graphs
+##5.3.3 Damping
+(a) Free and forced oscillations
+(b) Effects of damping; observing forced and damped oscillations
+(c) Resonance; natural frequency
+(d) Amplitude–driving frequency graphs
+(e) Practical examples of forced oscillations and resonance
+##5.4.1 Point and spherical masses
+(a) Gravitational fields are due to mass
+(b) Spherical mass modelled as a point mass
+(c) Gravitational field lines
+(d) g = F/m
+(e) Gravitational fields as one of several kinds of field
+##5.4.2 Newton’s law of gravitation
+(a) F = −GMm/r²
+(b) g = −GM/r²
+(c) g is uniform close to the Earth’s surface
+##5.4.3 Planetary motion
+(a) Kepler’s three laws
+(b) Gravity provides the centripetal force on a planet
+(c) T² = (4π²/GM) r³
+(d) Kepler’s third law beyond the solar system
+(e) Geostationary orbits and their uses
+##5.4.4 Gravitational potential and energy
+(a) Gravitational potential; zero at infinity
+(b) Vg = −GM/r
+(c) Force–distance graph: work done is the area
+(d) Ep = −GMm/r
+(e) Escape velocity
+##5.5.1 Stars
+(a) Planets, satellites, comets, solar systems, galaxies, the universe
+(b) Star formation: gravitational collapse, fusion, radiation and gas pressure
+(c) Low-mass stars: red giant, white dwarf, planetary nebula
+(d) White dwarfs: electron degeneracy pressure, Chandrasekhar limit
+(e) Massive stars: red supergiant, supernova, neutron star or black hole
+(f) Characteristics of neutron stars and black holes
+(g) Hertzsprung–Russell diagram
+##5.5.2 Electromagnetic radiation from stars
+(a) Energy levels of electrons in gas atoms
+(b) Energy levels are negative
+(c) Emission lines from electron transitions
+(d) hf = ΔE and hc/λ = ΔE
+(e) Spectral lines identify elements in stars
+(f) Continuous, emission line and absorption line spectra
+(g) Diffraction grating to measure wavelength
+(h) d sin θ = nλ
+(i) Wien’s law λmax ∝ 1/T
+(j) Luminosity; Stefan’s law L = 4πr²σT⁴
+(k) Estimating a star’s radius with Wien’s and Stefan’s laws
+##5.5.3 Cosmology
+(a) Astronomical unit, light-year and parsec
+(b) Stellar parallax
+(c) p = 1/d
+(d) The cosmological principle
+(e) Doppler effect for EM radiation
+(f) Δλ/λ ≈ Δf/f ≈ v/c
+(g) Hubble’s law v ≈ H₀d
+(h) Expanding universe from galactic red shift
+(i) H₀ in km s⁻¹ Mpc⁻¹ and s⁻¹
+(j) The Big Bang theory
+(k) Microwave background radiation at 2.7 K as evidence
+(l) The Big Bang gave rise to the expansion of space-time
+(m) Age of the universe t ≈ 1/H₀
+(n) Evolution of the universe to the present
+#Module 6|Particles and medical physics
+##6.1.1 Capacitors
+(a) Capacitance C = Q/V; the farad
+(b) Charging and discharging in terms of electron flow
+(c) Capacitors in series
+(d) Capacitors in parallel
+(e) Circuits with capacitors and resistors; series and parallel investigation
+##6.1.2 Energy
+(a) p.d.–charge graph: energy stored is the area
+(b) W = ½QV = ½Q²/C = ½V²C
+(c) Capacitors as energy stores
+##6.1.3 Charging and discharging capacitors
+(a) Charging and discharging through a resistor; investigation with meters and data-loggers
+(b) Time constant τ = CR
+(c) x = x₀e^(−t/CR) and x = x₀(1 − e^(−t/CR))
+(d) Modelling ΔQ/Δt = −Q/CR graphically and in spreadsheets
+(e) Exponential decay; constant-ratio property
+##6.2.1 Point and spherical charges
+(a) Electric fields are due to charges
+(b) Charged sphere modelled as a point charge
+(c) Electric field lines
+(d) E = F/Q
+##6.2.2 Coulomb’s law
+(a) F = Qq/4πε₀r²
+(b) E = Q/4πε₀r²
+(c) Gravitational versus electric fields
+(d) Electric fields as one of several kinds of field
+##6.2.3 Uniform electric field
+(a) E = V/d
+(b) Parallel plate capacitor C = ε₀A/d; permittivity
+(c) Charged particles in a uniform electric field
+##6.2.4 Electric potential and energy
+(a) Electric potential; zero at infinity
+(b) V = Q/4πε₀r
+(c) Isolated sphere C = 4πε₀R
+(d) Force–distance graph: work done is the area
+(e) Electric potential energy = Vq = Qq/4πε₀r
+##6.3.1 Magnetic fields
+(a) Magnetic fields from moving charges or magnets
+(b) Magnetic field lines
+(c) Field patterns: straight wire, flat coil, solenoid
+(d) Fleming’s left-hand rule
+(e) F = BIL sin θ; measuring B with a balance
+(f) Magnetic flux density; the tesla
+##6.3.2 Motion of charged particles
+(a) F = BQv
+(b) Circular orbits in a uniform magnetic field
+(c) Combined electric and magnetic fields; velocity selector
+##6.3.3 Electromagnetism
+(a) Magnetic flux φ = BA cos θ; the weber
+(b) Magnetic flux linkage
+(c) Faraday’s and Lenz’s laws
+(d) ε = −Δ(Nφ)/Δt; search coil investigation
+(e) Simple a.c. generator
+(f) Transformers: ns/np = Vs/Vp = Ip/Is; investigation
+##6.4.1 The nuclear atom
+(a) Alpha-particle scattering: small charged nucleus
+(b) Nuclear model: protons, neutrons, electrons
+(c) Relative sizes of atom and nucleus
+(d) Proton number, nucleon number, isotopes, ᴬ_Z X notation
+(e) Strong nuclear force: range and nature
+(f) R = r₀A^⅓
+(g) Mean densities of atoms and nuclei
+##6.4.2 Fundamental particles
+(a) Particles and antiparticles
+(b) Antiparticles: same mass, opposite charge
+(c) Hadrons: strong and weak interaction
+(d) Leptons: weak interaction only
+(e) Quark model: up, down, strange and antiquarks
+(f) Proton uud and neutron udd
+(g) Quark charges as fractions of e
+(h) Beta-minus and beta-plus decay
+(i) β⁻ decay in quark terms
+(j) β⁺ decay in quark terms
+(k) Balancing quark transformation equations
+(l) Decay of particles in quark terms
+##6.4.3 Radioactivity
+(a) Spontaneous and random decay
+(b) α, β and γ: nature, penetration and range; absorption practical
+(c) Nuclear decay equations
+(d) Activity and decay constant; A = λN
+(e) Half-life λt½ = ln 2; protactinium practical
+(f) A = A₀e^(−λt) and N = N₀e^(−λt); dice simulation
+(g) Modelling ΔN/Δt = −λN graphically and in spreadsheets
+(h) Radioactive dating, e.g. carbon dating
+##6.4.4 Nuclear fission and fusion
+(a) Einstein’s mass–energy equation ΔE = Δmc²
+(b) Energy released or absorbed in nuclear reactions
+(c) Pair creation and annihilation
+(d) Mass defect, binding energy, binding energy per nucleon
+(e) Binding energy per nucleon curve; energy changes
+(f) Binding energy and nuclear masses
+(g) Induced fission; chain reaction
+(h) Fission reactor: fuel rods, control rods, moderator
+(i) Environmental impact of nuclear waste
+(j) Nuclear fusion and temperature
+(k) Balancing nuclear transformation equations
+##6.5.1 Using X-rays
+(a) X-ray tube structure
+(b) Production of X-ray photons
+(c) Attenuation: simple scatter, photoelectric effect, Compton effect, pair production
+(d) I = I₀e^(−μx); attenuation coefficient
+(e) Contrast media: barium and iodine
+(f) CAT scanning components
+(g) Advantages of a CAT scan over an X-ray image
+##6.5.2 Diagnostic methods in medicine
+(a) Medical tracers: technetium-99m and fluorine-18
+(b) Gamma camera components and image formation
+(c) Diagnosis using a gamma camera
+(d) PET scanner: annihilation and image formation
+(e) Diagnosis using PET scanning
+##6.5.3 Using ultrasound
+(a) Ultrasound: longitudinal waves above 20 kHz
+(b) Piezoelectric effect; transducers
+(c) A-scan and B-scan
+(d) Acoustic impedance Z = ρc
+(e) Reflection at a boundary: Ir/I₀ = (Z₂ − Z₁)²/(Z₂ + Z₁)²
+(f) Impedance matching; coupling gel
+(g) Doppler ultrasound: Δf/f = 2v cos θ/c for blood speed
+</script>
+
+<script type="text/plain" id="d-e">
+#3.1.1|Applied anatomy and physiology
+##3.1.1.1 Cardio-respiratory system
+How the cardiovascular and respiratory systems work together before, during and after exercise
+Positive effects of physical activity on these systems as part of a healthy lifestyle
+##3.1.1.2 Cardiovascular system
+Impact of physical activity on health (heart disease, blood pressure, cholesterol, stroke) and fitness (cardiac output)
+Hormonal, neural and chemical regulation: anticipatory rise, vascular shunting, cardiac conduction system
+Receptors: chemoreceptors, proprioceptors, baroreceptors
+Transport of oxygen: haemoglobin, myoglobin, oxyhaemoglobin dissociation curve, Bohr shift
+Venous return mechanisms and blood pressure
+Starling’s law of the heart
+Cardiovascular drift
+Arterio-venous oxygen difference (A-VO₂ diff) and training adaptations
+##3.1.1.3 Respiratory system
+Lung volumes: residual, expiratory and inspiratory reserve, tidal volume, minute ventilation
+Gas exchange at the alveoli and muscles; diffusion and partial pressure
+Neural and chemical regulation of pulmonary ventilation
+Receptors regulating ventilation
+Impact of poor lifestyle choices (smoking) on the respiratory system
+##3.1.1.4 Neuromuscular system
+Muscle fibre types: slow twitch (I), fast oxidative glycolytic (IIa), fast glycolytic (IIx)
+Nervous system: sympathetic and parasympathetic
+Proprioceptors in PNF: muscle spindles, Golgi tendon organ
+Recruitment of muscle fibres: motor units, spatial and wave summation, all-or-none law, tetanic contraction
+##3.1.1.5 Musculo-skeletal system and analysis of movement
+Joint actions in the sagittal plane / transverse axis
+Joint actions in the frontal plane / sagittal axis
+Joint actions in the transverse plane / longitudinal axis
+Joint types, articulating bones, agonists and antagonists, isotonic and isometric contractions
+##3.1.1.6 Energy systems
+Energy transfer: aerobic system (glycolysis, Krebs cycle, beta oxidation, electron transport chain) and anaerobic systems
+Energy continuum of physical activity; ATP generation in fast and slow twitch fibres
+Short duration, high intensity: ATP-PC and anaerobic glycolytic systems, lactate threshold, OBLA
+Long duration, lower intensity: oxygen deficit and EPOC
+Factors affecting VO₂ max / aerobic power
+Measuring energy expenditure: indirect calorimetry, lactate sampling, VO₂ max test, RER
+Specialist training: altitude, HIIT, plyometrics, speed agility quickness
+#3.1.2|Skill acquisition
+##3.1.2.1 Skill, skill continuums and transfer of skills
+Characteristics of skill
+Skill continua: open–closed, discrete–serial–continuous, gross–fine, self-paced–externally paced, high–low organisation, simple–complex
+Justifying skill placement on each continuum
+Transfer of learning: positive, negative, zero, bilateral
+How transfer impacts skill development
+##3.1.2.2 Impact of skill classification on structure of practice
+Methods of presenting practice: whole, progressive part, whole–part–whole
+Types of practice: massed, distributed, variable, mental
+How skill classification informs practice structure
+##3.1.2.3 Principles and theories of learning and performance
+Stages of learning (cognitive, associative, autonomous) and feedback at each stage
+Learning plateau: causes and solutions
+Cognitive theories: insight learning (Gestalt)
+Behaviourism: operant conditioning (Skinner)
+Social learning: observational learning (Bandura)
+Constructivism: social development theory (Vygotsky)
+How learning theories impact skill development
+##3.1.2.4 Use of guidance and feedback
+Methods of guidance: verbal, visual, manual, mechanical
+Purposes and types of feedback: KP, KR, positive, negative, intrinsic, extrinsic
+How feedback and guidance impact skill development
+##3.1.2.5.1 General information processing model
+Input: senses, receptors, proprioception, perception, DCR process, selective attention
+Decision making: short- and long-term memory
+Baddeley and Hitch working memory model
+Output and feedback
+##3.1.2.5.2 Efficiency of information processing
+Whiting’s information processing model in sporting contexts
+Information processing terms: display, sensory organs, perceptual, translatory and effector mechanisms, feedback data
+Reaction time, response time and movement time; simple and choice reaction time
+Factors affecting response time: Hick’s law, psychological refractory period, single channel hypothesis
+Anticipation: temporal and spatial
+Strategies to improve response time
+Schmidt’s schema theory: recall and recognition schema
+Applying schema theory in sport
+Strategies to improve information processing
+#3.1.3|Sport and society
+##3.1.3.1.1 Pre-industrial (pre-1780)
+Characteristics of society and impact on sporting recreation
+Mob football and real tennis
+##3.1.3.1.2 Industrial and post-industrial (1780–1900)
+Impact on association football, lawn tennis, track and field and the Wenlock Olympian Games
+Industrial Revolution, urbanisation, transport, Empire, factories, churches, public schools
+Class system, national governing bodies, women in sport, amateurs and professionals
+##3.1.3.1.3 Post World War II (1950 to present)
+The golden triangle: commercialisation, media and sport
+Changing status of amateur and professional performers
+Emergence of elite female performers in football, tennis and athletics
+##3.1.3.2.1 Sociological theory applied to equal opportunities
+Key terms: society, socialisation, social processes, social issues, stratification
+Social action theory and social issues in sport
+Underrepresented groups: disability, ethnicity, gender, disadvantaged
+Equal opportunity terms: discrimination, stereotyping, prejudice
+Barriers to participation and solutions
+Benefits of raising participation: health, fitness, social
+Sport England and partners increasing grassroots participation
+#3.2.1|Exercise physiology
+##3.2.1.1 Diet and nutrition
+Exercise-related function of food classes, vitamins, minerals and hydration
+Effects of supplements and manipulation: creatine, sodium bicarbonate, caffeine, glycogen loading
+##3.2.1.2 Preparation and training methods
+Lab conditions and field tests: quantitative/qualitative, objective/subjective, validity and reliability
+Physiological effects and benefits of warm-up and cool-down
+Principles of training: specificity, progressive overload, reversibility, recovery, FITT
+Periodisation: macro, meso and micro cycles; tapering and peaking
+Training methods: HIIT, continuous, fartlek, circuit, weight, PNF
+##3.2.1.3 Injury prevention and rehabilitation
+Types of injury: acute and chronic
+Methods for injury prevention, rehabilitation and recovery
+Physiological reasons for rehabilitation methods: hyperbaric chambers, cryotherapy
+Importance of sleep and nutrition for recovery
+#3.2.2|Biomechanical movement
+##3.2.2.1 Biomechanical principles
+Newton’s three laws of linear motion in sport
+Definitions, equations and units of scalars
+Centre of mass
+Factors affecting stability
+##3.2.2.2 Levers
+Three classes of lever in the body
+Mechanical advantage and disadvantage
+##3.2.2.3 Linear motion
+Forces acting on a performer during linear motion
+Definitions, equations and units of vectors
+Definitions, equations and units of scalars
+Impulse and momentum in sprinting: force–time graphs
+##3.2.2.4 Angular motion
+Newton’s laws applied to angular motion
+Definitions and units for angular motion
+Conservation of angular momentum; moment of inertia and angular velocity
+##3.2.2.5 Projectile motion
+Factors affecting horizontal displacement
+Factors affecting flight paths
+Vector components of parabolic flight
+##3.2.2.6 Fluid mechanics
+Dynamic fluid force
+Factors that reduce and increase drag
+The Bernoulli principle in sport
+#3.2.3|Sport psychology
+##3.2.3.1.1 Aspects of personality
+Nature vs nurture
+Interactionist perspective
+Using the interactionist perspective to improve performance
+##3.2.3.1.2 Attitudes
+Triadic model; formation and changing attitudes (cognitive dissonance, persuasive communication)
+##3.2.3.1.3 Arousal
+Theories of arousal: drive, inverted U, catastrophe, zone of optimal functioning
+Practical applications of arousal theories
+Peak flow experience
+##3.2.3.1.4 Anxiety
+Types of anxiety
+Measuring anxiety: observations, questionnaires, physiological measures
+##3.2.3.1.5 Aggression
+Aggression vs assertion
+Theories of aggression
+Strategies to control aggression
+##3.2.3.1.6 Motivation
+Motivation: intrinsic and extrinsic
+##3.2.3.1.7 Achievement motivation theory
+Atkinson’s model of achievement motivation
+Personality components of achievement motivation
+Situational component of achievement motivation
+Achievement goal theory
+Strategies to develop approach behaviours
+##3.2.3.1.8 Social facilitation
+Social facilitation and inhibition
+Evaluation apprehension
+Strategies to reduce adverse effects
+##3.2.3.1.9 Group dynamics
+Group formation
+Cohesion
+Steiner’s model; faulty group processes
+Ringelmann effect and social loafing
+Strategies to improve cohesion and productivity
+##3.2.3.1.10 Importance of goal setting
+Benefits of types of goal setting
+Principles of effective goal setting
+##3.2.3.1.11 Attribution theory
+Attribution process
+Weiner’s model in sport
+Attribution, task persistence and motivation
+Self-serving bias
+Attribution retraining
+Learned helplessness
+Strategies to avoid learned helplessness
+##3.2.3.1.12 Self-efficacy and confidence
+Self-efficacy, self-confidence and self-esteem
+Bandura’s model of self-efficacy
+Vealey’s model of self-confidence
+Home field advantage
+Strategies to build self-efficacy
+##3.2.3.1.13 Leadership
+Characteristics of effective leaders
+Styles of leadership
+Leadership styles for different situations
+Prescribed and emergent leaders
+Theories of leadership
+##3.2.3.1.14 Stress management
+Stress and stressors
+Warm-up for stress management
+Effects of cognitive and somatic techniques
+Cognitive techniques
+Somatic techniques
+#3.2.4|Sport and society and technology
+##3.2.4.1 Concepts of physical activity and sport
+Physical recreation, sport, physical education, school sport and the development continuum
+Similarities and differences between these concepts
+##3.2.4.2 Development of elite performers
+Factors supporting progression from talent ID to elite performance
+Roles of organisations supporting progression
+National Institutes of Sport support services
+UK Sport: World Class Performance Programme, Gold Event Series, talent ID
+##3.2.4.3 Ethics in sport
+Key terms: amateurism, Olympic oath, sportsmanship, gamesmanship, win ethic
+Positive and negative deviance
+##3.2.4.4 Violence in sport
+Causes and implications of violence
+Strategies to prevent violence
+##3.2.4.5 Drugs in sport
+Social and psychological reasons for doping
+Physiological effects of drugs
+Implications of drug taking for sport and performer
+Strategies to eliminate PEDs
+Arguments for and against drug taking and testing
+##3.2.4.6 Sport and the law
+Uses of sports legislation: performers, officials, coaches, spectators
+##3.2.4.7 Commercialisation and the media
+Positive and negative impact of commercialisation, sponsorship and the media
+##3.2.4.8 Role of technology
+Technology for sports analytics
+Functions of sports analytics
+Development of equipment and facilities
+Positive and negative impacts of technology
+#NEA|Practical performance in physical activity and sport
+##Performance assessment (45 marks)
+Area 1: technical quality – aspect 1 (15 marks)
+Area 2: technical quality – aspect 2 (15 marks)
+Area 3: application of strategic/tactical awareness (15 marks)
+##Performance analysis assessment (45 marks)
+Analysis: identify and explain weaknesses from Areas 2 and 3 (20 marks)
+Evaluation: theoretical causes and corrections for each weakness (25 marks)
+</script>
+
+<script>
+(()=>{
+const SUB={m:{n:'Maths',eye:'Edexcel · 9MA0',notes:0},p:{n:'Physics',eye:'OCR A · H556',notes:1},e:{n:'PE',eye:'AQA · 7582',notes:1},t:{n:'To do',eye:'Your list'}};
+const ICON={m:'<path d="M5 12h14M12 5v14"/><circle cx="12" cy="12" r="9.5"/>',p:'<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(120 12 12)"/>',e:'<circle cx="13.5" cy="4.5" r="2"/><path d="m7 21 3-7 3 3v5M6 12l3-4 5 1 3 4M10 14l-4 1"/>',t:'<path d="m4 7 2 2 4-4M4 16l2 2 4-4M13 7h7M13 16h7"/>'};
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const LS='alevel-rev-v1',LU='alevel-rev-ui';
+function parse(k){const t=[];let g=null,s,u,i=0;$('d-'+k).textContent.trim().split('\n').forEach(l=>{l=l.trim();if(!l)return;const id=k+(i++).toString(36);
+ if(l[0]=='@')g=l.slice(1);else if(l.startsWith('##')){u={id,t:l.slice(2),c:[]};s.c.push(u)}else if(l[0]=='#'){s={id,t:l.slice(1),c:[]};if(g)s.g=g;t.push(s)}else u.c.push({id,t:l})});return t}
+const DEF={m:parse('m'),p:parse('p'),e:parse('e')};
+const blank=()=>({v:1,ts:0,p:{},exam:{},tree:{},todo:{items:[],groups:[]}});
+const norm=o=>{const b=blank();o=o&&typeof o=='object'?o:{};return{v:1,ts:+o.ts||0,p:o.p||{},exam:o.exam||{},tree:o.tree||{},todo:{items:(o.todo&&o.todo.items)||[],groups:(o.todo&&o.todo.groups)||[]}}};
+let S=blank(),U={tab:'m',open:{},flt:'all',theme:'auto'};
+try{S=norm(JSON.parse(localStorage.getItem(LS)))}catch(e){}
+try{Object.assign(U,JSON.parse(localStorage.getItem(LU))||{})}catch(e){}
+let edit=false,armed=null,armT,renaming=null,q='';
+const tree=k=>S.tree[k]||DEF[k];
+const etree=k=>S.tree[k]||(S.tree[k]=JSON.parse(JSON.stringify(DEF[k])));
+const pts=n=>n.c?n.c.flatMap(pts):[n];
+const P=id=>S.p[id]||{};
+function find(k,id,ro){let r=null;(function w(a,par){a.forEach((n,i)=>{if(r)return;if(n.id==id)r={n,a,i,par};else if(n.c)w(n.c,n)})})(ro?tree(k):etree(k),null);return r}
+const saveUI=()=>{try{localStorage.setItem(LU,JSON.stringify(U))}catch(e){}};
+function save(){S.ts=Date.now();try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}push()}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
+function arm(key){if(armed===key){armed=null;clearTimeout(armT);return true}armed=key;clearTimeout(armT);armT=setTimeout(()=>{armed=null;render()},3000);render();return false}
+const tabA=k=>`var(--${k})`;
+/* ---------- subject views ---------- */
+function ring(p,cls,lab,sub){const r=26,c=2*Math.PI*r;return`<div class="ring ${cls}"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle class="rtrack" cx="32" cy="32" r="${r}" fill="none" stroke-width="7"/><circle class="rval" cx="32" cy="32" r="${r}" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p/100)}" transform="rotate(-90 32 32)"/><text class="rpct" x="32" y="37" text-anchor="middle">${p}%</text></svg><div><b>${lab}</b><small>${sub}</small></div></div>`}
+function match(n,sec,sub){const s=P(n.id);if(U.flt=='nl'&&(s.l||s.r))return false;if(U.flt=='rv'&&(s.r||!(s.l||s.c==1||s.c==2)))return false;if(q&&!(n.t+' '+sub.t+' '+sec.t).toLowerCase().includes(q))return false;return true}
+const cnt=a=>{const r=a.filter(n=>P(n.id).r).length;return`<span class="cnt${r==a.length&&a.length?' full':''}">${r}/${a.length} ready</span>`};
+function head(k,n,lvl,open,a){const ttl=edit?(lvl?`<button class="ib" data-a="tog" data-id="${n.id}" aria-label="Open"><i class="chev"></i></button>`:'')+`<input class="ed" data-e="ren" data-id="${n.id}" value="${esc(n.t)}" aria-label="Name">`:`<button class="tt" data-a="tog" data-id="${n.id}" aria-expanded="${open}"><i class="chev"></i><span>${title(n.t)}</span></button>`;
+ return`<div class="sh${lvl?' sub':''}${open?' open':''}${a.length&&a.every(x=>P(x.id).r)?' done':''}">${ttl}${edit?'':cnt(a)}${edit?`<button class="ib del${armed=='d'+n.id?' arm':''}" data-a="del" data-id="${n.id}">${armed=='d'+n.id?'Delete?':'Delete'}</button>`:`<button class="ib" data-a="addsec" data-id="${n.id}" aria-label="Add section to to-do">+</button>`}</div>`}
+const title=t=>{const [a,b]=t.split('|');return b?`<span class="ref">${esc(a)}</span>${esc(b)}`:(m=>m?`<span class="ref">${esc(m[1])}</span>${esc(m[2])}`:esc(t))(t.match(/^(\d+(?:\.\d+)*)\s+(.*)$/))};
+function point(k,n){const s=P(n.id),m=n.t.match(/^(\(\w+\)|\d+(?:\.\d+)+)\s+(.*)$/),added=S.todo.items.some(i=>i.pid==n.id&&!i.d);
+ if(edit)return`<div class="pt"><div class="pr"><input class="ed" data-e="ren" data-id="${n.id}" value="${esc(n.t)}" aria-label="Spec point"><button class="ib del${armed=='d'+n.id?' arm':''}" data-a="del" data-id="${n.id}">${armed=='d'+n.id?'Delete?':'Delete'}</button></div></div>`;
+ const b=(f,l)=>`<button class="pill${s[f]?' on':''}${f=='r'?' rd':''}" data-a="set" data-f="${f}" data-id="${n.id}" aria-pressed="${!!s[f]}">${l}</button>`;
+ return`<div class="pt${s.r?' done':''}"><div class="pr"><button class="dot c${s.c||0}" data-a="dot" data-id="${n.id}" aria-label="Confidence"><i></i></button><div class="ptx">${m?`<span class="ref">${esc(m[1])}</span>${esc(m[2])}`:esc(n.t)}</div><button class="ib${added?' added':''}" data-a="todo" data-id="${n.id}" aria-label="${added?'Remove from':'Add to'} to-do">${added?'✓':'+'}</button></div><div class="pb">${b('l','Learnt')}${SUB[k].notes?b('n','Notes'):''}${b('q','Qs')}${b('r','Ready')}</div></div>`}
+const pc=(n,N)=>n?Math.min(100,Math.max(1,Math.floor(n/N*100))):0;
+function renderSubj(k){const t=tree(k),all=pts({c:t}),N=all.length||1,rd=all.filter(n=>P(n.id).r).length,nt=all.filter(n=>P(n.id).n).length;
+ $('rings').innerHTML=ring(pc(rd,N),'','Ready',`${rd} of ${all.length} points`)+(SUB[k].notes?ring(pc(nt,N),'rnote','Notes',`${nt} of ${all.length} done`):'');
+ $('exam').value=S.exam[k]||'';const d=S.exam[k]?Math.round((new Date(S.exam[k]+'T00:00')-new Date(new Date().toDateString()))/864e5):null;
+ $('days').innerHTML=d==null?'Pick a date':d>0?`<b>${d}</b> day${d==1?'':'s'} to go`:d==0?'<b>Today</b>':'Exam passed';
+ $('flt').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.f==U.flt));
+ const searching=q||U.flt!='all';let h='',g=null;
+ t.forEach(sec=>{let inner='',any=false;const so=searching||U.open[sec.id]||edit;
+  sec.c.forEach(sub=>{const vis=sub.c.filter(n=>match(n,sec,sub));if(searching&&!vis.length&&!edit)return;any=true;const uo=searching&&!edit||U.open[sub.id];
+   inner+=`<div>${head(k,sub,1,uo,sub.c)}${uo?`<div class="pts">${(edit?sub.c:vis).map(n=>point(k,n)).join('')}${edit?`<div class="add"><input class="ed" id="np-${sub.id}" placeholder="New spec point" data-enter="addpt" data-id="${sub.id}"><button class="abtn" data-a="addpt" data-id="${sub.id}">Add</button></div>`:''}</div>`:''}</div>`});
+  if(searching&&!any&&!edit)return;
+  if(sec.g&&sec.g!=g){g=sec.g;const[a,b]=g.split('|');h+=`<h3 class="grp"><small>${esc(b||'')}</small>${esc(a)}</h3>`}
+  h+=`<div class="card${so?' open':''}">${head(k,sec,0,so,pts(sec))}${so?inner+(edit?`<div class="add"><input class="ed" id="ns-${sec.id}" placeholder="New sub-topic" data-enter="addsub" data-id="${sec.id}"><button class="abtn" data-a="addsub" data-id="${sec.id}">Add</button></div>`:''):''}</div>`});
+ if(edit)h+=`<div class="card"><div class="add" style="border:0"><input class="ed" id="nsec" placeholder="New section" data-enter="addsecn"><button class="abtn" data-a="addsecn">Add section</button></div></div>`;
+ $('list').innerHTML=h||`<div class="card empty">No spec points match. Try another search or filter.</div>`}
+/* ---------- to-do ---------- */
+function task(i){return`<div class="tk${i.d?' d':''}"><button class="ck" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}" aria-label="Done"><i>${i.d?'✓':''}</i></button><span>${esc(i.t)}</span><button class="x" data-a="rmtask" data-id="${i.id}" aria-label="Delete task">×</button></div>`}
+function renderTodo(){const T=S.todo,loose=T.items.filter(i=>!i.g);let h=`<div class="card"><div class="add" style="border:0;padding-left:12px"><input class="ed" id="nt" placeholder="Add a task" data-enter="addtask"><button class="abtn" data-a="addtask">Add</button></div></div>`;
+ h+=`<div class="lbl">Tasks</div><div class="card">${loose.length?loose.map(task).join(''):'<div class="empty">Nothing here yet. Tap + on any spec point to add it.</div>'}</div>`;
+ h+=`<div class="lbl">Groups</div><div class="card"><div class="add" style="border:0;padding-left:12px"><input class="ed" id="ng" placeholder="New group, e.g. Magnetic fields" data-enter="addgrp"><button class="abtn" data-a="addgrp">Create</button></div></div>`;
+ T.groups.forEach(g=>{const its=T.items.filter(i=>i.g==g.id),dn=its.filter(i=>i.d).length,o=U.open[g.id];
+  h+=`<div class="card${o?' open':''}"><div class="sh${o?' open':''}">${renaming==g.id?`<input class="ed" data-e="gren" data-id="${g.id}" value="${esc(g.name)}" aria-label="Group name" autofocus>`:`<button class="tt" data-a="tog" data-id="${g.id}" aria-expanded="${!!o}"><i class="chev"></i><span>${esc(g.name)}</span></button><span class="cnt${its.length&&dn==its.length?' full':''}">${dn}/${its.length}</span>`}<button class="ib del" data-a="gren" data-id="${g.id}">${renaming==g.id?'Done':'Rename'}</button><button class="ib del${armed=='g'+g.id?' arm':''}" data-a="gdel" data-id="${g.id}">${armed=='g'+g.id?'Delete?':'Delete'}</button></div>${o?`<div class="pts">${its.map(task).join('')}<div class="add"><input class="ed" id="gt-${g.id}" placeholder="Add a task to this group" data-enter="addgt" data-id="${g.id}"><button class="abtn" data-a="addgt" data-id="${g.id}">Add</button></div></div>`:''}</div>`});
+ if(!T.groups.length)h+=`<div class="card empty">Create a group, or tap + on a section header to add the whole section.</div>`;
+ $('todo').innerHTML=h;const r=$('todo').querySelector('[data-e=gren]');if(r){r.focus();r.select()}}
+function render(){const k=U.tab,isT=k=='t';document.documentElement.style.setProperty('--ac',tabA(k));
+ $('eye').textContent=SUB[k].eye;$('ttl').textContent=SUB[k].n;$('subj').hidden=isT;$('todo').hidden=!isT;$('edit').hidden=isT;$('untick').hidden=!edit||isT;
+ $('edit').textContent=edit?'Done':'Edit';$('edit').classList.toggle('on',edit);$('untick').textContent=armed=='untick'?'Tap again to untick':'Untick all';$('untick').classList.toggle('arm',armed=='untick');
+ $('theme').textContent={auto:'Auto',light:'Light',dark:'Dark'}[U.theme];
+ if(U.theme=='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=U.theme;
+ $('nav').innerHTML=Object.keys(SUB).map(t=>`<button class="${t==k?'on':''}" style="--c:var(--${t})" data-a="tab" data-t="${t}" aria-current="${t==k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICON[t]}</svg>${SUB[t].n}</button>`).join('');
+ isT?renderTodo():renderSubj(k)}
+/* ---------- actions ---------- */
+const nodeTitle=(k,id)=>{let r='';(function w(a,pre){a.forEach(n=>{if(n.id==id)r=pre+n.t.replace('|',' ');else if(n.c)w(n.c,pre)})})(tree(k),'');return r};
+const label=(k,n,sub)=>`${SUB[k].n} · ${n.t.match(/^\(\w+\)/)?sub.t.split(' ')[0]+' ':''}${n.t}`;
+function parentOf(k,id){let r=null;tree(k).forEach(s=>s.c.forEach(u=>{if(u.c.some(n=>n.id==id))r=u}));return r}
+const A={
+ tab:e=>{U.tab=e.dataset.t;edit=false;q='';$('q').value='';saveUI();render();scrollTo(0,0)},
+ theme:()=>{U.theme={auto:'light',light:'dark',dark:'auto'}[U.theme];saveUI();render()},
+ edit:()=>{edit=!edit;render()},
+ tog:e=>{const id=e.dataset.id;U.open[id]=!U.open[id];saveUI();render()},
+ flt:e=>{U.flt=e.dataset.f;saveUI();render()},
+ set:e=>{const id=e.dataset.id,f=e.dataset.f,s=S.p[id]=Object.assign({},S.p[id]);s[f]=s[f]?0:1;if(f=='r'&&s.r)s.l=1;save();render()},
+ dot:e=>{const s=S.p[e.dataset.id]=Object.assign({},S.p[e.dataset.id]);s.c=((s.c||0)+1)%4;save();render()},
+ todo:e=>{const k=U.tab,id=e.dataset.id,T=S.todo,ex=T.items.find(i=>i.pid==id&&!i.d);
+  if(ex){T.items=T.items.filter(i=>i!==ex);toast('Removed from to-do')}else{const sub=parentOf(k,id),n=sub.c.find(x=>x.id==id);T.items.push({id:uid(),t:label(k,n,sub),pid:id,d:0});toast('Added to to-do')}save();render()},
+ addsec:e=>{const k=U.tab,r=find(k,e.dataset.id,1),n=r?r.n:null;if(!n)return;const top=r.par||n,g={id:uid(),name:[SUB[k].n,top.g&&top.g.split('|')[0],k=='m'&&r.par&&r.par.t,n.t.replace('|',' – ')].filter(Boolean).join(' · ')};
+  const its=[];(r.par?[n]:n.c).forEach(u=>u.c.forEach(x=>{if(!P(x.id).r)its.push({id:uid(),t:(/^\(/.test(x.t)?u.t.split(' ')[0]+' ':'')+x.t,pid:x.id,g:g.id,d:0})}));S.todo.groups.push(g);S.todo.items.push(...its);U.open[g.id]=1;saveUI();save();toast(`Added ${its.length} point${its.length==1?'':'s'} as a group`);render()},
+ del:e=>{const k=U.tab,id=e.dataset.id;if(!arm('d'+id))return;const r=find(k,id);if(r)r.a.splice(r.i,1);save();render()},
+ addpt:e=>{const id=e.dataset.id,i=$('np-'+id),v=i.value.trim();if(!v)return i.focus();const r=find(U.tab,id);r.n.c.push({id:'u'+uid(),t:v});save();render();const n=$('np-'+id);n&&n.focus()},
+ addsub:e=>{const id=e.dataset.id,i=$('ns-'+id),v=i.value.trim();if(!v)return i.focus();const r=find(U.tab,id),nid='u'+uid();r.n.c.push({id:nid,t:v,c:[]});U.open[nid]=1;saveUI();save();render()},
+ addsecn:()=>{const i=$('nsec'),v=i.value.trim();if(!v)return i.focus();const t=etree(U.tab),nid='u'+uid(),last=t[t.length-1];const s={id:nid,t:v,c:[]};if(last&&last.g)s.g=last.g;t.push(s);U.open[nid]=1;saveUI();save();render()},
+ untick:()=>{if(!arm('untick'))return;pts({c:tree(U.tab)}).forEach(n=>delete S.p[n.id]);save();toast(`${SUB[U.tab].n} progress cleared`);render()},
+ addtask:()=>{const i=$('nt'),v=i.value.trim();if(!v)return i.focus();S.todo.items.push({id:uid(),t:v,d:0});save();render();$('nt').focus()},
+ addgt:e=>{const g=e.dataset.id,i=$('gt-'+g),v=i.value.trim();if(!v)return i.focus();S.todo.items.push({id:uid(),t:v,g,d:0});save();render();$('gt-'+g).focus()},
+ addgrp:()=>{const i=$('ng'),v=i.value.trim();if(!v)return i.focus();const g={id:uid(),name:v};S.todo.groups.push(g);U.open[g.id]=1;saveUI();save();render()},
+ tick:e=>{const t=S.todo.items.find(i=>i.id==e.dataset.id);if(t){t.d=t.d?0:1;save();render()}},
+ rmtask:e=>{S.todo.items=S.todo.items.filter(i=>i.id!=e.dataset.id);save();render()},
+ gren:e=>{if(renaming==e.dataset.id){const i=$('todo').querySelector('[data-e=gren]');commitG(i)}else{renaming=e.dataset.id;render()}},
+ gdel:e=>{const g=e.dataset.id;if(!arm('g'+g))return;S.todo.groups=S.todo.groups.filter(x=>x.id!=g);S.todo.items=S.todo.items.filter(i=>i.g!=g);save();toast('Group deleted');render()},
+ copy:()=>{const txt=JSON.stringify(S);const fb=()=>sheet('Copy backup','Select all and copy this text, then keep it somewhere safe.',txt,null);
+  try{navigator.clipboard.writeText(txt).then(()=>toast('Backup copied'),fb)}catch(e){fb()}},
+ restore:()=>sheet('Restore backup','Paste a backup you copied earlier. It replaces everything in this tracker.','',()=>{try{const o=JSON.parse($('shX').value);if(!o||typeof o!='object'||!o.p)throw 0;S=norm(o);save();closeSheet();toast('Backup restored');render()}catch(e){toast('That text isn’t a valid backup')}},'Restore'),
+ shClose:()=>closeSheet(),shGo:()=>shGo&&shGo()};
+let shGo=null;
+function sheet(t,p,x,go,lab){$('shT').textContent=t;$('shP').textContent=p;const ta=$('shX');ta.value=x;ta.readOnly=!go;$('shGo').hidden=!go;$('shGo').textContent=lab||'';shGo=go;$('sheet').hidden=false;setTimeout(()=>{ta.focus();if(!go)ta.select()},30)}
+function closeSheet(){$('sheet').hidden=true;shGo=null}
+function commitG(i){const g=S.todo.groups.find(x=>x.id==i.dataset.id),v=i.value.trim();renaming=null;if(g&&v&&v!=g.name){g.name=v;save()}render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const f=A[b.dataset.a];if(f)f(b)});
+$('sheet').addEventListener('click',e=>{if(e.target.id=='sheet')closeSheet()});
+document.addEventListener('change',e=>{const i=e.target;if(i.dataset.e=='ren'){const v=i.value.trim();const r=find(U.tab,i.dataset.id);if(r&&v){r.n.t=v;save()}}});
+document.addEventListener('focusout',e=>{const i=e.target;if(i.dataset&&i.dataset.e=='gren'&&renaming)setTimeout(()=>{if(renaming==i.dataset.id&&document.contains(i))commitG(i)},150)});
+document.addEventListener('keydown',e=>{const i=e.target;if(e.key=='Escape')return closeSheet();if(e.key!='Enter')return;if(i.dataset.enter){e.preventDefault();A[i.dataset.enter](i)}else if(i.dataset.e=='gren'){e.preventDefault();commitG(i)}else if(i.dataset.e=='ren')i.blur()});
+$('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderSubj(U.tab)});
+$('exam').addEventListener('change',e=>{S.exam[U.tab]=e.target.value;save();render()});
+/* ---------- cloud sync (artifact storage) ---------- */
+let doc=null,pT,busy=false,again=false;
+function syncMsg(ok,m){const s=$('sync');s.className='sync'+(ok?' ok':'');s.innerHTML='<i></i>'+m}
+function push(){if(!doc)return;clearTimeout(pT);pT=setTimeout(async()=>{if(busy){again=true;return}busy=true;try{await doc.set({s:JSON.stringify(S),ts:S.ts});syncMsg(1,'Synced to your account')}catch(e){syncMsg(0,e&&e.code=='quota_exceeded'?'Cloud storage is full. Progress is saved on this device.':'Couldn’t sync. Progress is saved on this device.')}busy=false;if(again){again=false;push()}},1200)}
+(async()=>{try{if(!window.claude||!window.claude.use)return;const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return;const id=await user.id();if(!id)return;
+ doc=db.doc('data/users/'+id+'/state');syncMsg(0,'Connecting to your account…');const tm=setTimeout(()=>syncMsg(0,'Can’t reach cloud yet. Saved on this device.'),10000);
+ doc.onSnapshot(sn=>{if(!sn.metadata.fromCache){clearTimeout(tm);syncMsg(1,'Synced to your account')}
+  if(!sn.exists){if(!sn.metadata.fromCache&&S.ts)push();return}const d=sn.data();
+  if(d.ts>S.ts){try{S=norm(JSON.parse(d.s));S.ts=d.ts;localStorage.setItem(LS,JSON.stringify(S))}catch(e){}if(!document.activeElement||!/INPUT|TEXTAREA/.test(document.activeElement.tagName))render()}
+  else if(d.ts<S.ts&&!sn.metadata.fromCache)push()},err=>{clearTimeout(tm);syncMsg(0,'Cloud sync is off. Saved on this device.')})}catch(e){}})();
+render();
+})();
+</script>
+
+</body>
+</html>
