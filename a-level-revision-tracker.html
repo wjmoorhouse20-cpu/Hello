@@ -158,7 +158,8 @@ body.drag{user-select:none;-webkit-user-select:none;cursor:grabbing}
 .sh.gh{padding-left:6px;gap:4px}.sh.gh .tt{padding-left:2px}
 .ng{border-top:.5px solid var(--sep);margin-left:14px;border-left:3px solid var(--fill)}
 .ng .pts{border-top:.5px solid var(--sep)}
-.gsel.on i{background:var(--ac);border-color:var(--ac)}
+.ck.on i,.gsel.on i{background:var(--ac);border-color:var(--ac)}
+.dgw{border-top:.5px solid var(--sep)}.dgw:first-child{border-top:0}.exn+.dgw{border-top:0}.sh.dg{min-height:56px}.sh.dg .tag{white-space:normal}.tk .tx{overflow-wrap:anywhere}
 .tt .tag{display:block;margin:1px 0 0}.sh.gh .tt>span{min-width:0}.sh.gh .cnt{flex:none}
 .until{display:grid;gap:6px;font-weight:600;font-size:14px}.until input{border:0;border-radius:10px;background:var(--fill);padding:8px 10px;min-height:44px}.until small{font-weight:400;color:var(--fg2);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -1127,8 +1128,8 @@ function renderSubj(k){const t=tree(k),all=pts({c:t}),N=all.length||1,rd=all.fil
  $('list').innerHTML=h||`<div class="card empty">No spec points match. Try another search or filter.</div>`}
 /* ---------- tasks ---------- */
 const tag=s=>`<em class="tag"><i style="background:var(--${s})"></i>${TL[s]}</em>`;
-function task(i,showTag){const ov=i.due&&!i.d&&i.due<today();
- return`<div class="tk${i.d?' d':''}" data-tid="${i.id}"><button class="hd" aria-label="Drag to move">${GRIP}</button><button class="ck" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}" aria-label="Done"><i>${i.d?'✓':''}</i></button><span class="tx">${esc(showTag?i.t:i.t.replace(TL[i.s]+' · ',''))}${showTag?tag(i.s):''}</span><button class="due${i.due?' set':''}${ov?' ov':''}" data-a="sched" data-id="${i.id}">${i.due?fmtD(i.due)+(i.tm?' · '+i.tm:''):'Plan'}</button><button class="x" data-a="rmtask" data-id="${i.id}" aria-label="Delete task">×</button></div>`}
+function task(i,showTag,inDay){const ov=i.due&&!i.d&&i.due<today();
+ return`<div class="tk${i.d?' d':''}" data-tid="${i.id}"><button class="hd" aria-label="Drag to move">${GRIP}</button><button class="ck" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}" aria-label="Done"><i>${i.d?'✓':''}</i></button><span class="tx">${esc(showTag?i.t:i.t.replace(TL[i.s]+' · ',''))}${showTag?tag(i.s):''}</span><button class="due${i.due?' set':''}${ov?' ov':''}" data-a="sched" data-id="${i.id}">${inDay&&i.due?(i.tm||'Move'):i.due?fmtD(i.due)+(i.tm?' · '+i.tm:''):'Plan'}</button><button class="x" data-a="rmtask" data-id="${i.id}" aria-label="Delete task">×</button></div>`}
 const kidsOf=id=>S.todo.groups.filter(g=>g.p==id);
 function gItems(id,seen=new Set()){if(seen.has(id))return[];seen.add(id);return[...kidsOf(id).flatMap(g=>gItems(g.id,seen)),...S.todo.items.filter(i=>i.g==id)]}
 function descIds(id,seen=new Set()){if(seen.has(id))return[];seen.add(id);return[id,...kidsOf(id).flatMap(g=>descIds(g.id,seen))]}
@@ -1162,6 +1163,11 @@ function planItems(list,commit){const per=S.plan.per,t=today(),load={},out=[];S.
  seq.forEach(i=>{const lim=ex(i.s);let d=t,best=null;for(let n=0;n<400;n++,d=addD(d,1)){if(lim&&d>=lim)break;if((load[d]||0)<per){best=d;break}}
   if(!best){best=t;let m=1e9;for(let n=0,dd=t;n<(lim?daysTo(lim):60);n++,dd=addD(dd,1))if((load[dd]||0)<m){m=load[dd]||0;best=dd}}
   load[best]=(load[best]||0)+1;out.push([i,best]);if(commit){i.due=best;i.ap=1}});return out}
+function rootOf(gid){let g=S.todo.groups.find(x=>x.id==gid),n=0;while(g&&g.p&&n++<9){const p=S.todo.groups.find(x=>x.id==g.p);if(!p)break;g=p}return g}
+function dayGrp(g,its,d){const kids=d<8?kidsOf(g.id).map(c=>{const ids=descIds(c.id);return[c,its.filter(i=>ids.includes(i.g))]}).filter(x=>x[1].length):[],own=its.filter(i=>i.g==g.id),dn=its.filter(i=>i.d).length,all=dn==its.length,o=U.open['d'+g.id],tm=its.map(i=>i.tm).filter(Boolean).sort()[0];
+ return`<div class="sh gh dg${o?' open':''}" data-gid="${g.id}"><button class="hd" aria-label="Drag group to another day">${GRIP}</button><button class="ck${all?' on':''}" data-a="dgtick" data-id="${g.id}" aria-pressed="${all}" aria-label="Mark all of ${esc(g.name)} done for this day"><i>${all?'✓':''}</i></button><button class="tt" data-a="tog" data-id="d${g.id}" aria-expanded="${!!o}"><i class="chev"></i><span>${esc(g.name)}<em class="tag">${d?'':`<i style="background:var(--${g.s})"></i>${TL[g.s]} · `}${its.length} task${its.length==1?'':'s'}${kids.length?` in ${kids.length} group${kids.length==1?'':'s'}`:''}${tm?' · from '+tm:''}</em></span></button><span class="cnt${all?' full':''}">${dn}/${its.length}</span></div>${o?`<div class="pts">${kids.map(([c,ci])=>`<div class="ng${U.open['d'+c.id]?' open':''}">${dayGrp(c,ci,d+1)}</div>`).join('')}${own.map(i=>task(i,0,1)).join('')}</div>`:''}`}
+function dayList(dl){const out=[],seen={};dl.forEach(i=>{const r=i.g&&rootOf(i.g);if(!r)return out.push({i});if(!seen[r.id])out.push(seen[r.id]={g:r,its:[]});seen[r.id].its.push(i)});
+ return out.map(e=>e.i?task(e.i,1,1):`<div class="dgw">${dayGrp(e.g,e.its,0)}</div>`).join('')}
 function renderCal(){const t=today();if(!U.mon)U.mon=t.slice(0,7);if(!U.day)U.day=t;
  const [y,m]=U.mon.split('-').map(Number),first=new Date(y,m-1,1),start=new Date(y,m-1,1-((first.getDay()+6)%7)),T=S.todo.items,by={},ex={};
  T.forEach(i=>{if(i.due)(by[i.due]=by[i.due]||[]).push(i)});KS.forEach(k=>{if(S.exam[k])(ex[S.exam[k]]=ex[S.exam[k]]||[]).push(k)});
@@ -1172,7 +1178,7 @@ function renderCal(){const t=today();if(!U.mon)U.mon=t.slice(0,7);if(!U.day)U.da
   cells+=`<button class="day${s.slice(0,7)!=U.mon?' out':''}${s==t?' tod':''}${s==U.day?' sel':''}${E?' ex':''}" data-a="day" data-d="${s}" data-drop="day:${s}" aria-label="${fmtD(s,1)}: ${L.length} task${L.length==1?'':'s'}${E?', '+E.map(k=>TL[k]).join(' and ')+' exam':''}"><span class="dn">${d.getDate()}</span><span class="dts">${L.slice(0,6).map(i=>`<i style="background:var(--${i.s})"></i>`).join('')}</span>${E?`<em>${E.map(k=>TL[k]).join('·')}</em>`:''}</button>`}
  h+=`<div class="card"><div class="calh"><b>${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b><span><button class="ib" data-a="mon" data-v="-1" aria-label="Previous month">‹</button><button class="ib" data-a="mon" data-v="1" aria-label="Next month">›</button></span></div><div class="cal">${cells}</div></div>`;
  const dl=(by[U.day]||[]).slice().sort((a,b)=>(a.tm||'99').localeCompare(b.tm||'99')),E=ex[U.day];
- h+=`<div class="lbl">${fmtD(U.day,1)}${U.day==t?' · Today':''}</div><div class="card" data-drop="day:${U.day}">${E?`<div class="exn">${E.map(k=>TL[k]).join(' and ')} exam</div>`:''}${dl.length?dl.map(i=>task(i,1)).join(''):'<div class="empty">Nothing planned. Add a task below or drag one here from Unplanned.</div>'}
+ h+=`<div class="lbl">${fmtD(U.day,1)}${U.day==t?' · Today':''}</div><div class="card" data-drop="day:${U.day}">${E?`<div class="exn">${E.map(k=>TL[k]).join(' and ')} exam</div>`:''}${dl.length?dayList(dl):'<div class="empty">Nothing planned. Add a task below or drag one here from Unplanned.</div>'}
   <div class="add"><select id="cs" class="ed sel" aria-label="Subject">${TK.map(x=>`<option value="${x}"${x==U.cs?' selected':''}>${TL[x]}</option>`).join('')}</select><input class="ed" id="ct" placeholder="Add a task for this day" data-enter="addday"><button class="abtn" data-a="addday">Add</button></div></div>`;
  const ap=T.some(i=>i.ap&&!i.d&&i.due&&i.due>=t);
  h+=`<div class="lbl">Auto-plan</div><div class="card"><div class="row" style="border:0"><label>Tasks per day</label><span class="step"><button class="ib" data-a="per" data-v="-1" aria-label="Fewer">−</button><b>${S.plan.per}</b><button class="ib" data-a="per" data-v="1" aria-label="More">+</button></span></div>
@@ -1225,6 +1231,7 @@ const A={
  gsplit:e=>{const g=S.todo.groups.find(x=>x.id==e.dataset.id);if(!g)return;kidsOf(g.id).forEach(c=>{if(g.p)c.p=g.p;else delete c.p});S.todo.items.forEach(i=>{if(i.g==g.id)i.g=g.p||null});S.todo.groups=S.todo.groups.filter(x=>x!==g);save();toast('Group split up. Everything inside was kept.');render()},
  gout:e=>{const g=S.todo.groups.find(x=>x.id==e.dataset.id),par=g&&S.todo.groups.find(x=>x.id==g.p);if(!g)return;if(par&&par.p)g.p=par.p;else delete g.p;save();toast(`Moved ${g.name} out`);render()},
  gsched:e=>openSched(e.dataset.id,1),
+ dgtick:e=>{const ids=new Set(descIds(e.dataset.id)),its=S.todo.items.filter(i=>ids.has(i.g)&&i.due==U.day),v=its.every(i=>i.d)?0:1;its.forEach(i=>i.d=v);save();render()},
  day:e=>{U.day=e.dataset.d;U.mon=U.day.slice(0,7);saveUI();render()},
  mon:e=>{const[y,m]=U.mon.split('-').map(Number),d=new Date(y,m-1+ +e.dataset.v,1);U.mon=ymd(d).slice(0,7);saveUI();render()},
  addday:()=>{const v=val('ct');if(!v)return;U.cs=$('cs').value;saveUI();S.todo.items.push({id:uid(),t:v,s:U.cs,due:U.day,d:0});save();render();$('ct').focus()},
@@ -1259,7 +1266,7 @@ function commitG(i){const g=S.todo.groups.find(x=>x.id==i.dataset.id),v=i.value.
 let dr=null;
 const clearMarks=()=>document.querySelectorAll('.ia,.ib4,.dhl').forEach(x=>x.classList.remove('ia','ib4','dhl'));
 function hit(){clearMarks();dr.tgt=null;const el=document.elementFromPoint(dr.x,dr.y),t=el&&el.closest(dr.gid?'[data-drop]':'[data-tid],[data-drop]');if(!t||t==dr.row||dr.row.contains(t))return;
- if(dr.gid){const[kind,v]=t.dataset.drop.split(':');if(!['grp','grptop','sub'].includes(kind)||kind=='grp'&&descIds(dr.id).includes(v))return;t.classList.add('dhl');dr.tgt={drop:t.dataset.drop};return}
+ if(dr.gid){const[kind,v]=t.dataset.drop.split(':');if(!['grp','grptop','sub','day','unsched'].includes(kind)||kind=='day'&&v==U.day||kind=='grp'&&descIds(dr.id).includes(v))return;t.classList.add('dhl');dr.tgt={drop:t.dataset.drop};return}
  if(t.dataset.tid){const r=t.getBoundingClientRect(),after=dr.y>r.top+r.height/2;t.classList.add(after?'ia':'ib4');dr.tgt={tid:t.dataset.tid,after}}else{t.classList.add('dhl');dr.tgt={drop:t.dataset.drop}}}
 function loop(){if(!dr)return;const h=innerHeight;if(dr.y<56)scrollBy(0,-Math.ceil((56-dr.y)/4));else if(dr.y>h-110)scrollBy(0,Math.ceil((dr.y-h+110)/4));hit();requestAnimationFrame(loop)}
 document.addEventListener('pointerdown',e=>{const hd=e.target.closest('.hd'),row=hd&&(hd.closest('[data-tid]')||hd.closest('[data-gid]'));if(!row)return;e.preventDefault();
@@ -1270,6 +1277,8 @@ function endDrag(cancel){if(!dr)return;const d=dr;if(!cancel)hit();dr=null;d.gh.
 document.addEventListener('pointerup',()=>endDrag(0));document.addEventListener('pointercancel',()=>endDrag(1));
 function moveGroup(id,t){const g=S.todo.groups.find(x=>x.id==id);if(!g)return;const[kind,v]=t.drop.split(':'),setS=s=>{const ids=new Set(descIds(id));S.todo.groups.forEach(x=>{if(ids.has(x.id))x.s=s});S.todo.items.forEach(i=>{if(ids.has(i.g))i.s=s})};
  if(kind=='grp'){const p=S.todo.groups.find(x=>x.id==v);g.p=v;setS(p.s);U.open[v]=1;saveUI();toast(`${g.name} is now inside ${p.name}`)}
+ else if(kind=='day'||kind=='unsched'){const ids=new Set(descIds(id)),its=S.todo.items.filter(i=>ids.has(i.g)&&!i.d&&i.due==U.day);if(!its.length)return;
+  its.forEach(i=>{delete i.ap;if(kind=='day')i.due=v;else{delete i.due;delete i.tm}});toast(kind=='day'?`Moved ${g.name} to ${fmtD(v)}`:`Unplanned ${its.length} task${its.length==1?'':'s'} from ${g.name}`)}
  else if(kind=='grptop'){if(!g.p)return;delete g.p;toast(`Moved ${g.name} out`)}
  else if(kind=='sub'){if(g.s==v&&!g.p)return;delete g.p;setS(v);toast(`Moved ${g.name} to ${TL[v]}`)}
  save();render()}
