@@ -162,6 +162,11 @@ body.drag{user-select:none;-webkit-user-select:none;cursor:grabbing}
 .dgw{border-top:.5px solid var(--sep)}.dgw:first-child{border-top:0}.exn+.dgw{border-top:0}.sh.dg{min-height:56px}.sh.dg .tag{white-space:normal}.tk .tx{overflow-wrap:anywhere}
 .tt .tag{display:block;margin:1px 0 0}.sh.gh .tt>span{min-width:0}.sh.gh .cnt{flex:none}
 .until{display:grid;gap:6px;font-weight:600;font-size:14px}.until input{border:0;border-radius:10px;background:var(--fill);padding:8px 10px;min-height:44px}.until small{font-weight:400;color:var(--fg2);font-size:13px}
+.addt{color:var(--fg)!important;font-weight:600;font-size:15px!important}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts button{min-height:56px;border-radius:14px;background:var(--fill);font-weight:600;font-size:15px;display:grid;place-items:center;align-content:center;gap:1px;padding:6px;border:2px solid transparent}
+.acts button.on{background:var(--ac);color:#fff}.acts small{font-size:11px;font-weight:500;opacity:.8}
+.actb{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ac);background:var(--fill);border-radius:6px;padding:2px 6px;margin-right:6px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -182,6 +187,7 @@ body.drag{user-select:none;-webkit-user-select:none;cursor:grabbing}
 </div>
 <nav id="nav"></nav>
 <div class="toast" id="toast"></div>
+<div class="sheet" id="addS" hidden><div class="card"><h2 id="addH"></h2><p id="addT" class="addt"></p><div class="acts" id="addA"></div><p id="addP"></p><div class="foot"><button class="abtn g" data-a="addX">Cancel</button><button class="abtn" id="addGo" data-a="addSave">Add task</button></div></div></div>
 <div class="sheet" id="sch" hidden><div class="card"><h2 id="schH">Plan task</h2><p id="schT"></p><div class="chips" id="schQ"></div><div class="two"><input type="date" id="schD" aria-label="Date"><input type="time" id="schM" aria-label="Time (optional)"></div><label class="until" id="schUw" hidden>Spread until (optional)<input type="date" id="schU"><small>Leave blank to give every task the same day. Pick an end date to share the tasks out evenly between the two dates.</small></label><div class="foot"><button class="abtn r" data-a="schClr">Remove date</button><button class="abtn g" data-a="schX">Cancel</button><button class="abtn" data-a="schSave">Save</button></div></div></div>
 <div class="sheet" id="sheet" hidden><div class="card"><h2 id="shT"></h2><p id="shP"></p><textarea id="shX" spellcheck="false"></textarea><div class="foot"><button class="abtn g" data-a="shClose">Cancel</button><button class="abtn" id="shGo" data-a="shGo"></button></div></div></div>
 
@@ -1127,9 +1133,14 @@ function renderSubj(k){const t=tree(k),all=pts({c:t}),N=all.length||1,rd=all.fil
  if(edit)h+=`<div class="card"><div class="add" style="border:0"><input class="ed" id="nsec" placeholder="New section" data-enter="addsecn"><button class="abtn" data-a="addsecn">Add section</button></div></div>`;
  $('list').innerHTML=h||`<div class="card empty">No spec points match. Try another search or filter.</div>`}
 /* ---------- tasks ---------- */
+const ACT={l:['Learn it','Learn'],n:['Make notes','Notes'],q:['Do questions','Questions'],r:['Get it Ready','Ready']};
+const actsFor=k=>['l',...(SUB[k].notes?['n']:[]),'q','r'];
+/* ticking a linked task sets the matching flag on its spec point; unticking undoes it if the task set it */
+function linkTick(t){if(!t.pid||!t.act)return;const s=S.p[t.pid]=Object.assign({},S.p[t.pid]);
+ if(t.d){t.prev=s[t.act]?1:0;s[t.act]=1;if(t.act=='r'){s.l=1;s.rt=s.rt||Date.now()}}else if(!t.prev){s[t.act]=0;if(t.act=='r')delete s.rt}}
 const tag=s=>`<em class="tag"><i style="background:var(--${s})"></i>${TL[s]}</em>`;
 function task(i,showTag,inDay){const ov=i.due&&!i.d&&i.due<today();
- return`<div class="tk${i.d?' d':''}" data-tid="${i.id}"><button class="hd" aria-label="Drag to move">${GRIP}</button><button class="ck" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}" aria-label="Done"><i>${i.d?'✓':''}</i></button><span class="tx">${esc(showTag?i.t:i.t.replace(TL[i.s]+' · ',''))}${showTag?tag(i.s):''}</span><button class="due${i.due?' set':''}${ov?' ov':''}" data-a="sched" data-id="${i.id}">${inDay&&i.due?(i.tm||'Move'):i.due?fmtD(i.due)+(i.tm?' · '+i.tm:''):'Plan'}</button><button class="x" data-a="rmtask" data-id="${i.id}" aria-label="Delete task">×</button></div>`}
+ return`<div class="tk${i.d?' d':''}" data-tid="${i.id}"><button class="hd" aria-label="Drag to move">${GRIP}</button><button class="ck" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}" aria-label="Done"><i>${i.d?'✓':''}</i></button><span class="tx">${i.act?`<em class="actb">${ACT[i.act][1]}</em>`:''}${esc(showTag?i.t:i.t.replace(TL[i.s]+' · ',''))}${showTag?tag(i.s):''}</span><button class="due${i.due?' set':''}${ov?' ov':''}" data-a="sched" data-id="${i.id}">${inDay&&i.due?(i.tm||'Move'):i.due?fmtD(i.due)+(i.tm?' · '+i.tm:''):'Plan'}</button><button class="x" data-a="rmtask" data-id="${i.id}" aria-label="Delete task">×</button></div>`}
 const kidsOf=id=>S.todo.groups.filter(g=>g.p==id);
 function gItems(id,seen=new Set()){if(seen.has(id))return[];seen.add(id);return[...kidsOf(id).flatMap(g=>gItems(g.id,seen)),...S.todo.items.filter(i=>i.g==id)]}
 function descIds(id,seen=new Set()){if(seen.has(id))return[];seen.add(id);return[id,...kidsOf(id).flatMap(g=>descIds(g.id,seen))]}
@@ -1205,12 +1216,21 @@ const A={
  edit:()=>{edit=!edit;render()},
  tog:e=>{const id=e.dataset.id;U.open[id]=!U.open[id];saveUI();render()},
  flt:e=>{U.flt=e.dataset.f;saveUI();render()},
- set:e=>{const id=e.dataset.id,f=e.dataset.f,s=S.p[id]=Object.assign({},S.p[id]);s[f]=s[f]?0:1;if(f=='r'){if(s.r){s.l=1;s.rt=Date.now()}else delete s.rt}save();render()},
+ set:e=>{const id=e.dataset.id,f=e.dataset.f,s=S.p[id]=Object.assign({},S.p[id]);s[f]=s[f]?0:1;if(f=='r'){if(s.r){s.l=1;s.rt=Date.now()}else delete s.rt}S.todo.items.forEach(i=>{if(i.pid==id&&i.act==f){if(s[f]&&!i.d){i.d=1;i.prev=0}else if(!s[f]&&i.d)i.d=0}});save();render()},
  dot:e=>{const s=S.p[e.dataset.id]=Object.assign({},S.p[e.dataset.id]);s.c=((s.c||0)+1)%4;save();render()},
- todo:e=>{const k=U.tab,id=e.dataset.id,T=S.todo,ex=T.items.find(i=>i.pid==id&&!i.d);
-  if(ex){T.items=T.items.filter(i=>i!==ex);toast('Removed from to-do')}else{const sub=parentOf(k,id),n=sub.c.find(x=>x.id==id);T.items.push({id:uid(),t:label(k,n,sub),pid:id,s:k,d:0});toast(`Added to ${SUB[k].n} to-do`)}save();render()},
- addsec:e=>{const k=U.tab,r=find(k,e.dataset.id,1),n=r?r.n:null;if(!n)return;const top=r.par||n,g={id:uid(),s:k,name:[SUB[k].n,top.g&&top.g.split('|')[0],k=='m'&&r.par&&r.par.t,n.t.replace('|',' – ')].filter(Boolean).join(' · ')};
-  const its=[];(r.par?[n]:n.c).forEach(u=>u.c.forEach(x=>{if(!P(x.id).r)its.push({id:uid(),t:(/^\(/.test(x.t)?u.t.split(' ')[0]+' ':'')+x.t,pid:x.id,g:g.id,s:k,d:0})}));S.todo.groups.push(g);S.todo.items.push(...its);U.open[g.id]=1;saveUI();save();toast(`Added ${its.length} point${its.length==1?'':'s'} as a group`);render()},
+ todo:e=>openAdd(U.tab,e.dataset.id,0),
+ addsec:e=>openAdd(U.tab,0,e.dataset.id),
+ actT:e=>{e.classList.toggle('on');e.setAttribute('aria-pressed',e.classList.contains('on'));addBtn()},
+ addX:()=>hide('addS'),
+ addSave:()=>{const c=addCtx,k=c.k,sel=[...$('addA').querySelectorAll('.on')].map(b=>b.dataset.v),T=S.todo;hide('addS');
+  if(c.pid){const sub=parentOf(k,c.pid),n=sub.c.find(x=>x.id==c.pid),open=T.items.filter(i=>i.pid==c.pid&&i.act&&!i.d);let a=0,r=0;
+   open.forEach(i=>{if(!sel.includes(i.act)){T.items.splice(T.items.indexOf(i),1);r++}});
+   sel.forEach(v=>{if(!open.some(i=>i.act==v)){T.items.push({id:uid(),t:label(k,n,sub),pid:c.pid,s:k,act:v,d:0});a++}});
+   toast(a&&r?'To-do updated':a?`Added ${sel.filter(v=>!open.some(i=>i.act==v)).map(v=>ACT[v][1].toLowerCase()).join(' and ')} to ${SUB[k].n} to-do`:r?'Removed from to-do':'No changes');save();return render()}
+  const r=find(k,c.sec,1),n=r.n,top=r.par||n,g={id:uid(),s:k,name:[SUB[k].n,top.g&&top.g.split('|')[0],k=='m'&&r.par&&r.par.t,n.t.replace('|',' – ')].filter(Boolean).join(' · ')},its=[];
+  (r.par?[n]:n.c).forEach(u=>u.c.forEach(x=>sel.forEach(v=>{if(!P(x.id)[v])its.push({id:uid(),t:(/^\(/.test(x.t)?u.t.split(' ')[0]+' ':'')+x.t,pid:x.id,g:g.id,s:k,act:v,d:0})})));
+  if(!its.length)return toast('Those are already done for every point here');
+  T.groups.push(g);T.items.push(...its);U.open[g.id]=1;saveUI();save();toast(`Added ${its.length} task${its.length==1?'':'s'} as a group`);render()},
  del:e=>{const k=U.tab,id=e.dataset.id;if(!arm('d'+id))return;const r=find(k,id);if(r)r.a.splice(r.i,1);save();render()},
  addpt:e=>{const id=e.dataset.id,v=val('np-'+id);if(!v)return;find(U.tab,id).n.c.push({id:U.tab+'~'+uid(),t:v});save();render();const n=$('np-'+id);n&&n.focus()},
  addsub:e=>{const id=e.dataset.id,v=val('ns-'+id);if(!v)return;const nid=U.tab+'~'+uid();find(U.tab,id).n.c.push({id:nid,t:v,c:[]});U.open[nid]=1;saveUI();save();render()},
@@ -1220,7 +1240,7 @@ const A={
  addtask:()=>{const v=val('nt');if(!v)return;S.todo.items.push({id:uid(),t:v,s:U.tt,d:0});save();render();$('nt').focus()},
  addgt:e=>{const g=e.dataset.id,v=val('gt-'+g);if(!v)return;S.todo.items.push({id:uid(),t:v,g,s:S.todo.groups.find(x=>x.id==g).s,d:0});save();render();$('gt-'+g).focus()},
  addgrp:()=>{const v=val('ng');if(!v)return;const g={id:uid(),name:v,s:U.tt};S.todo.groups.push(g);U.open[g.id]=1;saveUI();save();render()},
- tick:e=>{const t=S.todo.items.find(i=>i.id==e.dataset.id);if(t){t.d=t.d?0:1;save();render()}},
+ tick:e=>{const t=S.todo.items.find(i=>i.id==e.dataset.id);if(t){t.d=t.d?0:1;linkTick(t);if(t.d&&t.act&&t.pid)toast(`${ACT[t.act][1]} ticked off on the ${TL[t.s]} spec point`);save();render()}},
  rmtask:e=>{S.todo.items=S.todo.items.filter(i=>i.id!=e.dataset.id);save();render()},
  gren:e=>{if(renaming==e.dataset.id)commitG($('todo').querySelector('[data-e=gren]'));else{renaming=e.dataset.id;render()}},
  gdel:e=>{const g=e.dataset.id;if(!arm('g'+g))return;const ids=new Set(descIds(g));S.todo.groups=S.todo.groups.filter(x=>!ids.has(x.id));S.todo.items=S.todo.items.filter(i=>!ids.has(i.g));save();toast('Group deleted');render()},
@@ -1231,7 +1251,7 @@ const A={
  gsplit:e=>{const g=S.todo.groups.find(x=>x.id==e.dataset.id);if(!g)return;kidsOf(g.id).forEach(c=>{if(g.p)c.p=g.p;else delete c.p});S.todo.items.forEach(i=>{if(i.g==g.id)i.g=g.p||null});S.todo.groups=S.todo.groups.filter(x=>x!==g);save();toast('Group split up. Everything inside was kept.');render()},
  gout:e=>{const g=S.todo.groups.find(x=>x.id==e.dataset.id),par=g&&S.todo.groups.find(x=>x.id==g.p);if(!g)return;if(par&&par.p)g.p=par.p;else delete g.p;save();toast(`Moved ${g.name} out`);render()},
  gsched:e=>openSched(e.dataset.id,1),
- dgtick:e=>{const ids=new Set(descIds(e.dataset.id)),its=S.todo.items.filter(i=>ids.has(i.g)&&i.due==U.day),v=its.every(i=>i.d)?0:1;its.forEach(i=>i.d=v);save();render()},
+ dgtick:e=>{const ids=new Set(descIds(e.dataset.id)),its=S.todo.items.filter(i=>ids.has(i.g)&&i.due==U.day),v=its.every(i=>i.d)?0:1;its.forEach(i=>{if(i.d!=v){i.d=v;linkTick(i)}});save();render()},
  day:e=>{U.day=e.dataset.d;U.mon=U.day.slice(0,7);saveUI();render()},
  mon:e=>{const[y,m]=U.mon.split('-').map(Number),d=new Date(y,m-1+ +e.dataset.v,1);U.mon=ymd(d).slice(0,7);saveUI();render()},
  addday:()=>{const v=val('ct');if(!v)return;U.cs=$('cs').value;saveUI();S.todo.items.push({id:uid(),t:v,s:U.cs,due:U.day,d:0});save();render();$('ct').focus()},
@@ -1261,6 +1281,15 @@ function openSched(id,isG){const g=isG&&S.todo.groups.find(x=>x.id==id),i=!isG&&
  $('schH').textContent=g?'Plan group':'Plan task';$('schT').textContent=g?`${its.length} unfinished task${its.length==1?'':'s'} in ${g.name}${kidsOf(id).length?', including its smaller groups':''}.`:i.t;
  const seen=new Set();$('schQ').innerHTML=Q.filter(([l,d])=>!seen.has(d)&&seen.add(d)).map(([l,d])=>`<button data-a="schQ" data-d="${d}" class="${(cur||'')==d?'on':''}">${esc(l)}</button>`).join('');
  $('schUw').hidden=!g;$('schU').value='';$('schD').value=cur||'';$('schM').value=g?'':i.tm||'';$('sch').hidden=false}
+let addCtx=null;
+function addBtn(){const n=$('addA').querySelectorAll('.on').length,ex=addCtx&&addCtx.has;$('addGo').disabled=!n&&!ex;$('addGo').textContent=ex?'Save':n>1?`Add ${n} tasks`:'Add task'}
+function openAdd(k,pid,sec){let title,has=[];if(pid){const sub=parentOf(k,pid),n=sub.c.find(x=>x.id==pid);title=label(k,n,sub).replace(SUB[k].n+' · ','');has=S.todo.items.filter(i=>i.pid==pid&&i.act&&!i.d).map(i=>i.act)}
+ else{const r=find(k,sec,1);if(!r)return;const c=pts(r.n).length;title=`${r.n.t.replace('|',' – ')} · ${c} spec point${c==1?'':'s'}`}
+ addCtx={k,pid,sec,has:has.length>0};const sp=pid?P(pid):{};
+ $('addH').textContent=pid?'What do you plan to do?':'Plan this whole section';$('addT').textContent=title;
+ $('addP').textContent=pid?'Each choice becomes its own task. Ticking a task off ticks the same button on this spec point.':'You get one task per spec point for each choice, in a new group. Points where that is already done are skipped.';
+ $('addA').innerHTML=actsFor(k).map(v=>`<button data-a="actT" data-v="${v}" class="${has.includes(v)?'on':''}" aria-pressed="${has.includes(v)}">${ACT[v][0]}${sp[v]?'<small>already done</small>':''}</button>`).join('');
+ addBtn();$('addS').hidden=false}
 function commitG(i){const g=S.todo.groups.find(x=>x.id==i.dataset.id),v=i.value.trim();renaming=null;if(g&&v&&v!=g.name){g.name=v;save()}render()}
 /* ---------- drag and drop (pointer events: works with touch and mouse) ---------- */
 let dr=null;
@@ -1296,7 +1325,7 @@ function moveTask(id,t){const L=S.todo.items,i=L.findIndex(x=>x.id==id);if(i<0)r
 document.addEventListener('click',e=>{if(e.target.classList.contains('sheet'))return hide(e.target.id);const b=e.target.closest('[data-a]');if(!b||b.disabled)return;const f=A[b.dataset.a];if(f)f(b)});
 document.addEventListener('change',e=>{const i=e.target;if(i.dataset.e=='ren'){const v=i.value.trim();const r=find(U.tab,i.dataset.id);if(r&&v){r.n.t=v;save()}}else if(i.id=='cs'){U.cs=i.value;saveUI()}});
 document.addEventListener('focusout',e=>{const i=e.target;if(i.dataset&&i.dataset.e=='gren'&&renaming)setTimeout(()=>{if(renaming==i.dataset.id&&document.contains(i))commitG(i)},150)});
-document.addEventListener('keydown',e=>{const i=e.target;if(e.key=='Escape'){hide('sheet');hide('sch');return}if(e.key!='Enter')return;if(i.dataset.enter){e.preventDefault();A[i.dataset.enter](i)}else if(i.dataset.e=='gren'){e.preventDefault();commitG(i)}else if(i.dataset.e=='ren')i.blur()});
+document.addEventListener('keydown',e=>{const i=e.target;if(e.key=='Escape'){hide('sheet');hide('sch');hide('addS');return}if(e.key!='Enter')return;if(i.dataset.enter){e.preventDefault();A[i.dataset.enter](i)}else if(i.dataset.e=='gren'){e.preventDefault();commitG(i)}else if(i.dataset.e=='ren')i.blur()});
 $('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderSubj(U.tab)});
 $('exam').addEventListener('change',e=>{S.exam[U.tab]=e.target.value;save();render()});
 /* ---------- cloud sync (artifact storage) ---------- */
