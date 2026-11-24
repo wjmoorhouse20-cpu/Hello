@@ -168,11 +168,41 @@ body.drag{user-select:none;-webkit-user-select:none;cursor:grabbing}
 .acts button{min-height:56px;border-radius:14px;background:var(--fill);font-weight:600;font-size:15px;display:grid;place-items:center;align-content:center;gap:1px;padding:6px;border:2px solid transparent}
 .acts button.on{background:var(--ac);color:#fff}.acts small{font-size:11px;font-weight:500;opacity:.8}
 .actb{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ac);background:var(--fill);border-radius:6px;padding:2px 6px;margin-right:6px;white-space:nowrap}
+/* Today widget: always-dark Liquid Glass card over a soft wallpaper; opens on its own when it was the last view on this device */
+#wg{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(28px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(28px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:#05060A;color:#fff;color-scheme:dark;font-family:var(--ff);--w2:rgba(235,235,245,.62);--w3:rgba(235,235,245,.42)}
+#wg::before{content:"";position:fixed;inset:-12%;z-index:-1;background:radial-gradient(38% 32% at 18% 18%,rgba(10,132,255,.55),transparent 70%),radial-gradient(34% 30% at 88% 28%,rgba(125,122,255,.5),transparent 70%),radial-gradient(44% 38% at 62% 92%,rgba(60,200,210,.36),transparent 70%),radial-gradient(30% 26% at 12% 80%,rgba(255,79,126,.28),transparent 70%),#05060A;filter:blur(24px)}
+.wgc{position:relative;margin:auto;width:100%;max-width:400px;border-radius:38px;padding:20px 16px 14px;isolation:isolate;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 42%,rgba(255,255,255,.08));-webkit-backdrop-filter:blur(34px) saturate(190%);backdrop-filter:blur(34px) saturate(190%);box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(255,255,255,.08),0 24px 70px rgba(0,0,0,.6)}
+.wgc::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(150deg,rgba(255,255,255,.6),rgba(255,255,255,.06) 38%,rgba(255,255,255,.02) 62%,rgba(255,255,255,.32));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+@media (min-width:700px){.wgc{max-width:580px;border-radius:44px;padding:26px 22px 18px}.wgd b{font-size:46px!important}}
+.wgh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 6px 14px}
+.wgd{min-width:0}.wgd small{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FF6B8E}
+.wgd b{display:block;font:700 40px/1.02 var(--fd);letter-spacing:-.025em;margin:2px 0 3px}
+.wgd span{display:block;font-size:13px;color:var(--w2)}
+.wgr{flex:none;position:relative;width:64px;height:64px}.wgr svg{display:block}
+.wgr b{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.wgl{display:grid;gap:6px}
+.wgt{display:flex;align-items:center;gap:6px;width:100%;min-height:56px;padding:4px 14px 4px 4px;border-radius:22px;text-align:left;background:rgba(255,255,255,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transition:background .2s,transform .12s}
+.wgt:active{transform:scale(.985);background:rgba(255,255,255,.12)}
+.wgk{flex:none;width:44px;height:44px;display:grid;place-items:center}
+.wgk i{width:26px;height:26px;border-radius:13px;border:2px solid rgba(255,255,255,.5);display:grid;place-items:center;font-style:normal;font-size:14px;font-weight:800;color:#fff;transition:background .2s,border-color .2s,box-shadow .2s}
+.wgt.d .wgk i{background:var(--sc);border-color:var(--sc);box-shadow:0 0 14px var(--sc)}
+.wgx{flex:1;min-width:0;font-size:15px;line-height:1.3;padding:6px 0}
+.wgx>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.wgt.d .wgx>span{text-decoration:line-through;color:var(--w3)}
+.wgx em{display:flex;align-items:center;gap:5px;font-style:normal;font-size:12px;font-weight:600;color:var(--w2);margin-top:2px}
+.wgx em i{width:7px;height:7px;border-radius:4px;background:var(--sc)}
+.wgo{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;padding:0 14px;margin-bottom:8px;border-radius:18px;background:rgba(255,69,58,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);color:#FF9A92;font-size:14px;font-weight:600}
+.wgo b{color:#fff}
+.wge{padding:26px 12px 22px;text-align:center;color:var(--w2);font-size:15px}.wge b{display:block;color:#fff;font-size:17px;margin-bottom:2px}
+.wgf{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:14px 4px 0}
+.wgb{min-height:40px;padding:0 16px;border-radius:20px;background:rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.28);color:#fff;font-weight:600;font-size:14px}
+.wgs{font-size:12px;color:var(--w3)}
+.toast{z-index:70}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
 <div class="wrap" id="app">
-  <div class="top"><span class="eye" id="eye"></span><div class="tb"><button class="tbtn" id="theme" data-a="theme"></button><button class="tbtn" id="edit" data-a="edit">Edit</button></div></div>
+  <div class="top"><span class="eye" id="eye"></span><div class="tb"><button class="tbtn" id="theme" data-a="theme"></button><button class="tbtn" id="edit" data-a="edit">Edit</button><button class="tbtn" data-a="wgOn">Widget</button></div></div>
   <h1 id="ttl"></h1>
   <div class="stack" id="subj">
     <div class="card"><div class="rings" id="rings"></div>
@@ -187,6 +217,7 @@ body.drag{user-select:none;-webkit-user-select:none;cursor:grabbing}
   <div class="card" style="margin-top:20px"><div class="foot"><button class="abtn g" data-a="copy">Copy backup</button><button class="abtn g" data-a="restore">Restore backup</button><button class="abtn r" id="untick" data-a="untick" hidden>Untick all</button></div><div class="sync" id="sync"><i></i>Saved on this device</div></div>
 </div>
 <nav id="nav"></nav>
+<div id="wg" hidden></div>
 <div class="toast" id="toast"></div>
 <div class="sheet" id="addS" hidden><div class="card"><h2 id="addH"></h2><p id="addT" class="addt"></p><div class="acts" id="addA"></div><p id="addP"></p><div class="foot"><button class="abtn g" data-a="addX">Cancel</button><button class="abtn" id="addGo" data-a="addSave">Add task</button></div></div></div>
 <div class="sheet" id="sch" hidden><div class="card"><h2 id="schH">Plan task</h2><p id="schT"></p><div class="chips" id="schQ"></div><div class="two"><input type="date" id="schD" aria-label="Date"><input type="time" id="schM" aria-label="Time (optional)"></div><label class="until" id="schUw" hidden>Spread until (optional)<input type="date" id="schU"><small>Leave blank to give every task the same day. Pick an end date to share the tasks out evenly between the two dates.</small></label><div class="foot"><button class="abtn r" data-a="schClr">Remove date</button><button class="abtn g" data-a="schX">Cancel</button><button class="abtn" data-a="schSave">Save</button></div></div></div>
@@ -1206,13 +1237,28 @@ function render(){const k=U.tab,isT=k=='t',isC=k=='c',sub=!isT&&!isC;document.do
  if(U.theme=='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=U.theme;
  $('nav').innerHTML=Object.keys(SUB).map(t=>`<button class="${t==k?'on':''}" style="--c:var(--${t})" data-a="tab" data-t="${t}" aria-current="${t==k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICON[t]}</svg>${SUB[t].n}</button>`).join('');
  if(!isT)$('todo').innerHTML='';if(!isC)$('cal').innerHTML='';
- isT?renderTodo():isC?renderCal():renderSubj(k)}
+ isT?renderTodo():isC?renderCal():renderSubj(k);renderWidget()}
+/* ---------- Today widget ---------- */
+const WC={g:'#98989D',m:'#0A84FF',p:'#7D7AFF',e:'#3CC8D2'};
+function renderWidget(){const w=$('wg');w.hidden=!U.wm;document.body.style.overflow=U.wm?'hidden':'';if(!U.wm){w.innerHTML='';return}
+ const t=today(),its=S.todo.items.filter(i=>i.due==t).sort((a,b)=>((a.d?1:0)-(b.d?1:0))||(a.tm||'99').localeCompare(b.tm||'99')),N=its.length,dn=its.filter(i=>i.d).length,ov=S.todo.items.filter(i=>i.due&&!i.d&&i.due<t).length;
+ const r=26,c=2*Math.PI*r,p=N?dn/N:0,now=pd(t),ex=KS.filter(k=>S.exam[k]&&S.exam[k]>=t).sort((a,b)=>S.exam[a]<S.exam[b]?-1:1)[0];
+ const sub=N?(dn==N?'All done for today':`${N-dn} of ${N} left`):'Nothing planned',exl=ex?` · ${TL[ex]} exam ${daysTo(S.exam[ex])?'in '+daysTo(S.exam[ex])+' day'+(daysTo(S.exam[ex])==1?'':'s'):'today'}`:'';
+ const row=i=>`<button class="wgt${i.d?' d':''}" style="--sc:${WC[i.s]||WC.g}" data-a="tick" data-id="${i.id}" aria-pressed="${!!i.d}"><span class="wgk"><i>${i.d?'✓':''}</i></span><span class="wgx"><span>${esc(i.t.replace(TL[i.s]+' · ',''))}</span><em><i></i>${TL[i.s]}${i.act?' · '+ACT[i.act][1]:''}${i.tm?' · '+esc(i.tm):''}</em></span></button>`;
+ w.innerHTML=`<div class="wgc" role="region" aria-label="Today's revision tasks"><div class="wgh"><div class="wgd"><small>${now.toLocaleDateString('en-GB',{weekday:'long'})}</small><b>${now.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</b><span>${sub}${exl}</span></div>
+  <div class="wgr" aria-label="${dn} of ${N} done"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${r}" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="7"/><circle cx="32" cy="32" r="${r}" fill="none" stroke="#FF6B8E" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 32 32)" style="transition:stroke-dashoffset .5s"/></svg><b>${dn}/${N}</b></div></div>
+  ${ov?`<button class="wgo" data-a="ovtoday"><span>${ov} overdue from earlier</span><b>Move to today</b></button>`:''}
+  <div class="wgl">${N?its.map(row).join(''):'<div class="wge"><b>All clear</b>Plan tasks for today in the planner’s Plan tab.</div>'}</div>
+  <div class="wgf"><button class="wgb" data-a="wgOff">Open planner</button><span class="wgs" id="wgs">${esc($('sync').textContent)}</span></div></div>`}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&U.wm)render()});
 /* ---------- actions ---------- */
 const label=(k,n,sub)=>`${SUB[k].n} · ${n.t.match(/^\(\w+\)/)?sub.t.split(' ')[0]+' ':''}${n.t}`;
 function parentOf(k,id){let r=null;tree(k).forEach(s=>s.c.forEach(u=>{if(u.c.some(n=>n.id==id))r=u}));return r}
 const val=id=>{const i=$(id),v=i.value.trim();if(!v)i.focus();return v};
 const A={
  tab:e=>{U.tab=e.dataset.t;edit=false;q='';$('q').value='';saveUI();render();scrollTo(0,0)},
+ wgOn:()=>{U.wm=1;saveUI();render()},
+ wgOff:()=>{U.wm=0;saveUI();render();scrollTo(0,0)},
  theme:()=>{U.theme={auto:'light',light:'dark',dark:'auto'}[U.theme];saveUI();render()},
  edit:()=>{edit=!edit;render()},
  tog:e=>{const id=e.dataset.id;U.open[id]=!U.open[id];saveUI();render()},
@@ -1331,7 +1377,7 @@ $('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render
 $('exam').addEventListener('change',e=>{S.exam[U.tab]=e.target.value;save();render()});
 /* ---------- cloud sync (artifact storage) ---------- */
 let doc=null,pT,busy=false,again=false;
-function syncMsg(ok,m){const s=$('sync');s.className='sync'+(ok?' ok':'');s.innerHTML='<i></i>'+m}
+function syncMsg(ok,m){const s=$('sync');s.className='sync'+(ok?' ok':'');s.innerHTML='<i></i>'+m;const w=$('wgs');if(w)w.textContent=m}
 function push(){if(!doc)return;clearTimeout(pT);pT=setTimeout(async()=>{if(busy){again=true;return}busy=true;try{await doc.set({s:JSON.stringify(S),ts:S.ts});syncMsg(1,'Synced to your account')}catch(e){syncMsg(0,e&&e.code=='quota_exceeded'?'Cloud storage is full. Progress is saved on this device.':'Couldn’t sync. Progress is saved on this device.')}busy=false;if(again){again=false;push()}},1200)}
 (async()=>{try{if(!window.claude||!window.claude.use)return;const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return;const id=await user.id();if(!id)return;
  doc=db.doc('data/users/'+id+'/state');syncMsg(0,'Connecting to your account…');const tm=setTimeout(()=>syncMsg(0,'Can’t reach cloud yet. Saved on this device.'),10000);
@@ -1342,6 +1388,7 @@ function push(){if(!doc)return;clearTimeout(pT);pT=setTimeout(async()=>{if(busy)
 render();
 })();
 </script>
+
 
 </body>
 </html>
