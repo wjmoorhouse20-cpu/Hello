@@ -56,6 +56,7 @@ h1{font:800 34px/1.1 var(--fd);letter-spacing:-.02em;margin:2px 0 14px;text-wrap
 .open>.sh .chev,.sh.open .chev{transform:rotate(45deg)}
 .cnt{font-size:13px;color:var(--fg2);font-variant-numeric:tabular-nums;white-space:nowrap}
 .cnt.full{color:var(--green);font-weight:700}
+.cnts{display:grid;justify-items:end;gap:1px;flex:none}.cnts .cnt{font-size:12px;line-height:1.25}
 .ib{flex:none;width:44px;height:44px;border-radius:22px;display:grid;place-items:center;color:var(--ac);font-size:24px;font-weight:400;line-height:1}
 .ib:active{background:var(--fill)}
 .ib.del{color:var(--red);font-size:15px;font-weight:600;width:auto;padding:0 8px}
@@ -1093,10 +1094,10 @@ const pc=(n,N)=>n?Math.min(100,Math.max(1,Math.floor(n/N*100))):0;
 /* ---------- subject views ---------- */
 function ring(p,cls,lab,sub){const r=26,c=2*Math.PI*r;return`<div class="ring ${cls}"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle class="rtrack" cx="32" cy="32" r="${r}" fill="none" stroke-width="7"/><circle class="rval" cx="32" cy="32" r="${r}" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p/100)}" transform="rotate(-90 32 32)"/><text class="rpct" x="32" y="37" text-anchor="middle">${p}%</text></svg><div><b>${lab}</b><small>${sub}</small></div></div>`}
 function match(n,sec,sub){const s=P(n.id);if(U.flt=='nl'&&(s.l||s.r))return false;if(U.flt=='rv'&&(s.r||!(s.l||s.c==1||s.c==2)))return false;if(q&&!(n.t+' '+sub.t+' '+sec.t).toLowerCase().includes(q))return false;return true}
-const cnt=a=>{const r=a.filter(n=>P(n.id).r).length;return`<span class="cnt${r==a.length&&a.length?' full':''}">${r}/${a.length} ready</span>`};
+const cnt=(a,k)=>{const c=f=>{const r=a.filter(n=>P(n.id)[f]).length;return`<span class="cnt${r==a.length&&a.length?' full':''}">${r}/${a.length} ${f=='r'?'ready':'notes'}</span>`};return SUB[k].notes?`<span class="cnts">${c('r')}${c('n')}</span>`:c('r')};
 const title=t=>{const [a,b]=t.split('|');return b?`<span class="ref">${esc(a)}</span>${esc(b)}`:(m=>m?`<span class="ref">${esc(m[1])}</span>${esc(m[2])}`:esc(t))(t.match(/^(\d+(?:\.\d+)*)\s+(.*)$/))};
 function head(k,n,lvl,open,a){const ttl=edit?(lvl?`<button class="ib" data-a="tog" data-id="${n.id}" aria-label="Open"><i class="chev"></i></button>`:'')+`<input class="ed" data-e="ren" data-id="${n.id}" value="${esc(n.t)}" aria-label="Name">`:`<button class="tt" data-a="tog" data-id="${n.id}" aria-expanded="${open}"><i class="chev"></i><span>${title(n.t)}</span></button>`;
- return`<div class="sh${lvl?' sub':''}${open?' open':''}${a.length&&a.every(x=>P(x.id).r)?' done':''}">${ttl}${edit?'':cnt(a)}${edit?`<button class="ib del${armed=='d'+n.id?' arm':''}" data-a="del" data-id="${n.id}">${armed=='d'+n.id?'Delete?':'Delete'}</button>`:`<button class="ib" data-a="addsec" data-id="${n.id}" aria-label="Add section to to-do">+</button>`}</div>`}
+ return`<div class="sh${lvl?' sub':''}${open?' open':''}${a.length&&a.every(x=>P(x.id).r)?' done':''}">${ttl}${edit?'':cnt(a,k)}${edit?`<button class="ib del${armed=='d'+n.id?' arm':''}" data-a="del" data-id="${n.id}">${armed=='d'+n.id?'Delete?':'Delete'}</button>`:`<button class="ib" data-a="addsec" data-id="${n.id}" aria-label="Add section to to-do">+</button>`}</div>`}
 function point(k,n){const s=P(n.id),m=n.t.match(/^(\(\w+\)|\d+(?:\.\d+)+)\s+(.*)$/),added=S.todo.items.some(i=>i.pid==n.id&&!i.d);
  if(edit)return`<div class="pt"><div class="pr"><input class="ed" data-e="ren" data-id="${n.id}" value="${esc(n.t)}" aria-label="Spec point"><button class="ib del${armed=='d'+n.id?' arm':''}" data-a="del" data-id="${n.id}">${armed=='d'+n.id?'Delete?':'Delete'}</button></div></div>`;
  const b=(f,l)=>`<button class="pill${s[f]?' on':''}${f=='r'?' rd':''}" data-a="set" data-f="${f}" data-id="${n.id}" aria-pressed="${!!s[f]}">${l}</button>`;
